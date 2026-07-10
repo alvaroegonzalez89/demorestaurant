@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PideYa · Carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chalk-bg:#1E2A22;
+    --chalk-bg-2:#16201A;
+    --chalk-line:#2E3D32;
+    --chalk-text:#F4F1E4;
+    --chalk-text-dim:#B9C2B7;
+    --paper:#F7F1E1;
+    --paper-2:#EFE6CE;
+    --ink:#2B2118;
+    --ink-dim:#6B6152;
+    --amber:#D9A441;
+    --amber-dark:#B8842E;
+    --wine:#8A3636;
+    --wine-dark:#6E2828;
+    --sage:#6B8F71;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'DM Sans',sans-serif;background:var(--chalk-bg);color:var(--chalk-text);
+    background-image:radial-gradient(ellipse at top, #24332A 0%, #1E2A22 55%, #16201A 100%);
+    min-height:100vh; padding-bottom:110px;}
+  header.top{padding:22px 20px 14px; text-align:center; position:relative;}
+  .brand{font-family:'Caveat',cursive; font-size:2.4rem; font-weight:700; color:var(--amber); line-height:1;}
+  .brand span{color:var(--chalk-text);}
+  .mesa-badge{display:inline-flex; align-items:center; gap:8px; margin-top:10px; background:var(--wine);
+    color:var(--paper); font-family:'JetBrains Mono',monospace; font-weight:700; letter-spacing:.08em;
+    padding:8px 18px; border-radius:999px; font-size:.95rem; box-shadow:0 4px 14px rgba(0,0,0,.35);}
+  .mesa-edit{background:none;border:none;color:var(--paper);opacity:.75;cursor:pointer;font-size:.8rem;text-decoration:underline;margin-top:6px;}
+
+  .cats{display:flex; gap:8px; overflow-x:auto; padding:6px 16px 14px; scrollbar-width:none;}
+  .cats::-webkit-scrollbar{display:none;}
+  .cat-btn{flex:0 0 auto; padding:9px 16px; border-radius:999px; border:1px solid var(--chalk-line);
+    background:var(--chalk-bg-2); color:var(--chalk-text-dim); font-family:'DM Sans'; font-weight:600;
+    font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.15s;}
+  .cat-btn.active{background:var(--amber); color:var(--ink); border-color:var(--amber);}
+
+  main{padding:4px 16px 20px; max-width:640px; margin:0 auto;}
+  .cat-title{font-family:'Caveat',cursive; font-size:1.7rem; color:var(--amber); margin:18px 4px 8px;}
+
+  .item{background:var(--paper); color:var(--ink); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px;
+    display:flex; justify-content:space-between; gap:12px; box-shadow:0 6px 16px rgba(0,0,0,.22);
+    border:1px solid var(--paper-2);}
+  .item-info{flex:1;}
+  .item-name{font-weight:700; font-size:1.02rem;}
+  .item-desc{color:var(--ink-dim); font-size:.82rem; margin-top:3px; line-height:1.35;}
+  .badges{margin-top:7px; display:flex; gap:6px; flex-wrap:wrap;}
+  .badge{font-size:.66rem; font-weight:700; letter-spacing:.03em; padding:3px 8px; border-radius:999px;}
+  .badge.tacc{background:#E4EFE0; color:#3F6B44;}
+  .badge.lac{background:#E6EEF5; color:#355A80;}
+  .item-price{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--wine-dark); margin-top:8px; font-size:.95rem;}
+
+  .qty-box{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:76px;}
+  .qty-stepper{display:flex; align-items:center; gap:0; background:var(--paper-2); border-radius:999px; overflow:hidden;}
+  .qty-stepper button{width:30px; height:30px; border:none; background:none; font-size:1.1rem; font-weight:700; color:var(--ink); cursor:pointer;}
+  .qty-stepper span{min-width:20px; text-align:center; font-weight:700;}
+  .add-btn{background:var(--amber); border:none; color:var(--ink); font-weight:700; font-size:.8rem;
+    padding:8px 14px; border-radius:999px; cursor:pointer;}
+  .add-btn:active{transform:scale(.96);}
+
+  /* barra flotante carrito */
+  .cart-bar{position:fixed; left:16px; right:16px; bottom:16px; background:var(--amber); color:var(--ink);
+    border-radius:16px; padding:14px 18px; display:none; align-items:center; justify-content:space-between;
+    box-shadow:0 10px 30px rgba(0,0,0,.4); cursor:pointer; z-index:40; max-width:608px; margin:0 auto;}
+  .cart-bar.show{display:flex;}
+  .cart-bar .left{display:flex; flex-direction:column;}
+  .cart-bar .count{font-size:.72rem; font-weight:700; opacity:.75;}
+  .cart-bar .total{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.15rem;}
+  .cart-bar .cta{background:var(--ink); color:var(--paper); padding:9px 16px; border-radius:999px; font-weight:700; font-size:.85rem;}
+
+  /* boton llamar mozo */
+  .mozo-fab{position:fixed; right:16px; bottom:86px; background:var(--wine); color:var(--paper);
+    border:none; width:56px; height:56px; border-radius:50%; font-size:1.4rem; box-shadow:0 8px 22px rgba(0,0,0,.4);
+    cursor:pointer; z-index:41; display:flex; align-items:center; justify-content:center;}
+  .cart-bar.show ~ .mozo-fab{bottom:96px;}
+
+  /* overlay/drawer */
+  .overlay{position:fixed; inset:0; background:rgba(10,14,11,.6); display:none; align-items:flex-end; z-index:50;}
+  .overlay.show{display:flex;}
+  .sheet{background:var(--paper); color:var(--ink); width:100%; max-height:85vh; border-radius:20px 20px 0 0;
+    padding:20px; overflow-y:auto; animation:up .25s ease;}
+  @keyframes up{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  .sheet h3{font-family:'Caveat',cursive; font-size:1.6rem; color:var(--wine-dark); margin:0 0 12px;}
+  .close-x{position:absolute; top:16px; right:20px; background:none; border:none; font-size:1.4rem; color:var(--ink-dim); cursor:pointer;}
+  .cart-line{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--paper-2);}
+  .cart-line .nm{font-weight:600; font-size:.92rem;}
+  .cart-line .sub{font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--ink-dim);}
+  .cart-total-row{display:flex; justify-content:space-between; padding:16px 0 6px; font-weight:700; font-size:1.1rem;}
+  .send-btn{width:100%; background:var(--wine); color:var(--paper); border:none; padding:15px; border-radius:999px;
+    font-weight:700; font-size:1rem; margin-top:10px; cursor:pointer;}
+  .send-btn:disabled{opacity:.4;}
+  .empty-note{color:var(--ink-dim); text-align:center; padding:30px 0; font-size:.9rem;}
+
+  .motivo-btn{display:block; width:100%; text-align:left; background:var(--paper-2); border:none; padding:14px 16px;
+    border-radius:12px; margin-bottom:8px; font-weight:600; color:var(--ink); cursor:pointer; font-size:.92rem;}
+  .motivo-btn:active{background:#E3D8B8;}
+
+  /* pantalla de estado de pedido */
+  .status-screen{max-width:520px; margin:30px auto; padding:0 16px;}
+  .ticket{background:var(--paper); color:var(--ink); border-radius:16px; padding:22px; box-shadow:0 10px 26px rgba(0,0,0,.3);}
+  .ticket h2{font-family:'Caveat',cursive; color:var(--wine-dark); font-size:1.8rem; margin:0 0 4px;}
+  .steps{display:flex; align-items:center; margin:20px 0;}
+  .step{flex:1; text-align:center; position:relative;}
+  .dot{width:26px; height:26px; border-radius:50%; background:var(--paper-2); border:2px solid var(--ink-dim);
+    margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:700; color:var(--ink-dim);}
+  .step.done .dot{background:var(--sage); border-color:var(--sage); color:#fff;}
+  .step.active .dot{background:var(--amber); border-color:var(--amber-dark); color:var(--ink);}
+  .step .lbl{font-size:.68rem; font-weight:600; color:var(--ink-dim);}
+  .step-line{position:absolute; top:13px; left:-50%; width:100%; height:2px; background:var(--paper-2); z-index:-1;}
+  .step.done .step-line{background:var(--sage);}
+  .step:first-child .step-line{display:none;}
+  .toast{position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--sage); color:#fff;
+    padding:10px 18px; border-radius:999px; font-weight:600; font-size:.85rem; z-index:99; box-shadow:0 6px 16px rgba(0,0,0,.3);
+    opacity:0; transition:.25s;}
+  .toast.show{opacity:1;}
+  .back-link{display:block; text-align:center; margin-top:16px; color:var(--chalk-text-dim); font-size:.85rem; text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><span>Pide</span>Ya</div>
+  <div><span class="mesa-badge" id="mesaBadge">MESA —</span></div>
+  <div><button class="mesa-edit" id="mesaEditBtn">cambiar mesa</button></div>
+</header>
+
+<div id="menuView">
+  <nav class="cats" id="cats"></nav>
+  <main id="menuMain"></main>
+</div>
+
+<div id="statusView" class="status-screen" style="display:none;"></div>
+
+<div class="cart-bar" id="cartBar">
+  <div class="left">
+    <span class="count" id="cartCount">0 items</span>
+    <span class="total" id="cartTotal">$0</span>
+  </div>
+  <span class="cta">Ver pedido</span>
+</div>
+
+<button class="mozo-fab" id="mozoFab" title="Llamar al mozo">🖐️</button>
+
+<div class="overlay" id="cartOverlay">
+  <div class="sheet" style="position:relative;">
+    <button class="close-x" id="closeCart">✕</button>
+    <h3>Tu pedido</h3>
+    <div id="cartLines"></div>
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal2">$0</span></div>
+    <button class="send-btn" id="sendBtn">Enviar pedido a la mesa</button>
+  </div>
+</div>
+
+<div class="overlay" id="mozoOverlay">
+  <div class="sheet" style="position:relative;">
+    <button class="close-x" id="closeMozo">✕</button>
+    <h3>¿En qué te ayudamos?</h3>
+    <button class="motivo-btn" data-m="Consulta sobre el menú">💬 Consulta sobre el menú</button>
+    <button class="motivo-btn" data-m="Consulta celíaco / sin TACC">🌾 Consulta celíaco / sin TACC</button>
+    <button class="motivo-btn" data-m="Consulta sin lactosa">🥛 Consulta sin lactosa</button>
+    <button class="motivo-btn" data-m="Pedir la cuenta">🧾 Pedir la cuenta</button>
+    <button class="motivo-btn" data-m="Otra consulta">✋ Otra consulta</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MENU = [
+  {id:'e1',cat:'Entradas',nombre:'Provoleta',desc:'Con orégano y aceite de oliva',precio:4500,tacc:true,lac:false},
+  {id:'e2',cat:'Entradas',nombre:'Empanadas de carne (x3)',desc:'Cortadas a cuchillo, horno de barro',precio:3800,tacc:false,lac:true},
+  {id:'e3',cat:'Entradas',nombre:'Tabla de fiambres',desc:'Jamón crudo, salame, quesos y aceitunas',precio:6200,tacc:true,lac:false},
+  {id:'e4',cat:'Entradas',nombre:'Rabas',desc:'Con limón y mayonesa casera',precio:5200,tacc:false,lac:true},
+  {id:'p1',cat:'Principales',nombre:'Bife de chorizo',desc:'Con papas rústicas',precio:9800,tacc:true,lac:true},
+  {id:'p2',cat:'Principales',nombre:'Milanesa napolitana',desc:'Con jamón, muzzarella y papas fritas',precio:8200,tacc:false,lac:false},
+  {id:'p3',cat:'Principales',nombre:'Ensalada Caesar',desc:'Pollo grillado, parmesano y crutones',precio:6500,tacc:false,lac:false},
+  {id:'p4',cat:'Principales',nombre:'Sorrentinos caseros',desc:'Jamón y muzzarella, salsa a elección',precio:7400,tacc:false,lac:false},
+  {id:'b1',cat:'Bebidas',nombre:'Copa de Malbec',desc:'Selección de la casa',precio:3200,tacc:true,lac:true},
+  {id:'b2',cat:'Bebidas',nombre:'Cerveza artesanal IPA',desc:'Pinta 500ml',precio:3500,tacc:false,lac:true},
+  {id:'b3',cat:'Bebidas',nombre:'Agua mineral',desc:'Con o sin gas',precio:1500,tacc:true,lac:true},
+  {id:'b4',cat:'Bebidas',nombre:'Limonada casera',desc:'Con menta y jengibre',precio:2200,tacc:true,lac:true},
+  {id:'d1',cat:'Postres',nombre:'Flan casero',desc:'Con dulce de leche y crema',precio:3000,tacc:true,lac:false},
+  {id:'d2',cat:'Postres',nombre:'Brownie con helado',desc:'Chocolate 70% y helado de vainilla',precio:3800,tacc:false,lac:false},
+  {id:'d3',cat:'Postres',nombre:'Fruta de estación',desc:'Selección del día',precio:2500,tacc:true,lac:true},
+];
+const CATS = ['Entradas','Principales','Bebidas','Postres'];
+
+// ---- estado / mesa ----
+const params = new URLSearchParams(location.search);
+let mesa = params.get('mesa') || localStorage.getItem('pideya_mesa_actual') || '';
+if(!mesa){ mesa = prompt('¿Qué número de mesa ocupás?','1') || '1'; }
+localStorage.setItem('pideya_mesa_actual', mesa);
+document.getElementById('mesaBadge').textContent = 'MESA ' + mesa;
+document.getElementById('mesaEditBtn').onclick = ()=>{
+  const nueva = prompt('Número de mesa:', mesa);
+  if(nueva){ mesa = nueva; localStorage.setItem('pideya_mesa_actual', mesa); document.getElementById('mesaBadge').textContent='MESA '+mesa; renderStatusIfPending();}
+};
+
+let cart = {}; // id -> qty
+
+function fmt(n){ return '$' + n.toLocaleString('es-AR'); }
+
+function renderCats(){
+  const cats = document.getElementById('cats');
+  cats.innerHTML = CATS.map((c,i)=>`<button class="cat-btn ${i===0?'active':''}" data-cat="${c}">${c}</button>`).join('');
+  cats.querySelectorAll('.cat-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      cats.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderItems(btn.dataset.cat);
+    };
+  });
+}
+
+function renderItems(cat){
+  const main = document.getElementById('menuMain');
+  const items = MENU.filter(i=>i.cat===cat);
+  main.innerHTML = `<div class="cat-title">${cat}</div>` + items.map(i=>`
+    <div class="item" id="item-${i.id}">
+      <div class="item-info">
+        <div class="item-name">${i.nombre}</div>
+        <div class="item-desc">${i.desc}</div>
+        <div class="badges">
+          ${i.tacc?'<span class="badge tacc">Sin TACC</span>':''}
+          ${i.lac?'<span class="badge lac">Sin lactosa</span>':''}
+        </div>
+        <div class="item-price">${fmt(i.precio)}</div>
+      </div>
+      <div class="qty-box">
+        ${cart[i.id] ? `<div class="qty-stepper">
+            <button class="dec" data-id="${i.id}">−</button>
+            <span>${cart[i.id]}</span>
+            <button class="inc" data-id="${i.id}">+</button>
+          </div>` : `<button class="add-btn" data-id="${i.id}">Agregar</button>`}
+      </div>
+    </div>`).join('');
+
+  main.querySelectorAll('.add-btn, .inc').forEach(b=>b.onclick=()=>{ addItem(b.dataset.id); renderItems(cat); });
+  main.querySelectorAll('.dec').forEach(b=>b.onclick=()=>{ removeItem(b.dataset.id); renderItems(cat); });
+}
+
+function addItem(id){ cart[id] = (cart[id]||0)+1; updateCartBar(); }
+function removeItem(id){ if(!cart[id]) return; cart[id]--; if(cart[id]<=0) delete cart[id]; updateCartBar(); }
+
+function cartTotal(){ return Object.entries(cart).reduce((s,[id,q])=> s + MENU.find(m=>m.id===id).precio*q, 0); }
+function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+
+function updateCartBar(){
+  const bar = document.getElementById('cartBar');
+  const c = cartCount();
+  if(c>0){ bar.classList.add('show'); } else { bar.classList.remove('show'); }
+  document.getElementById('cartCount').textContent = c + (c===1?' item':' items');
+  document.getElementById('cartTotal').textContent = fmt(cartTotal());
+}
+
+document.getElementById('cartBar').onclick = openCart;
+function openCart(){
+  const lines = document.getElementById('cartLines');
+  if(cartCount()===0){ lines.innerHTML = '<div class="empty-note">Todavía no agregaste nada</div>'; }
+  else{
+    lines.innerHTML = Object.entries(cart).map(([id,q])=>{
+      const m = MENU.find(x=>x.id===id);
+      return `<div class="cart-line"><span class="nm">${q}× ${m.nombre}</span><span class="sub">${fmt(m.precio*q)}</span></div>`;
+    }).join('');
+  }
+  document.getElementById('cartTotal2').textContent = fmt(cartTotal());
+  document.getElementById('sendBtn').disabled = cartCount()===0;
+  document.getElementById('cartOverlay').classList.add('show');
+}
+document.getElementById('closeCart').onclick = ()=> document.getElementById('cartOverlay').classList.remove('show');
+
+document.getElementById('sendBtn').onclick = ()=>{
+  if(cartCount()===0) return;
+  const items = Object.entries(cart).map(([id,q])=>{
+    const m = MENU.find(x=>x.id===id);
+    return {nombre:m.nombre, precio:m.precio, cant:q};
+  });
+  const pedido = {
+    id: 'P'+Date.now(),
+    mesa, items, total: cartTotal(),
+    estado: 'nuevo', // nuevo | preparando | listo
+    hora: Date.now(),
+    origen: 'cliente'
+  };
+  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]');
+  pedidos.push(pedido);
+  localStorage.setItem('pideya_pedidos', JSON.stringify(pedidos));
+  localStorage.setItem('pideya_ping', Date.now().toString()); // fuerza evento storage
+
+  cart = {}; updateCartBar();
+  document.getElementById('cartOverlay').classList.remove('show');
+  showToast('Pedido enviado a mesa ' + mesa + ' ✓');
+  showStatusScreen(pedido.id);
+};
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+// ---- pantalla de estado ----
+function showStatusScreen(pedidoId){
+  document.getElementById('menuView').style.display='none';
+  const view = document.getElementById('statusView');
+  view.style.display='block';
+  localStorage.setItem('pideya_last_pedido_'+mesa, pedidoId);
+  renderStatus();
+}
+
+function renderStatus(){
+  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]').filter(p=>p.mesa===mesa);
+  const view = document.getElementById('statusView');
+  if(pedidos.length===0){ view.style.display='none'; document.getElementById('menuView').style.display='block'; return; }
+  const totalMesa = pedidos.reduce((s,p)=>s+p.total,0);
+  view.innerHTML = pedidos.slice().reverse().map(p=>{
+    const steps = ['nuevo','preparando','listo'];
+    const idx = steps.indexOf(p.estado);
+    const labels = ['Recibido','Preparando','Listo'];
+    return `<div class="ticket" style="margin-bottom:14px;">
+      <h2>Pedido mesa ${p.mesa}</h2>
+      <div style="font-size:.8rem;color:var(--ink-dim);">${new Date(p.hora).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(p.total)}</div>
+      <div class="steps">
+        ${labels.map((l,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'active':''}"><div class="step-line"></div><div class="dot">${i<idx?'✓':i+1}</div><div class="lbl">${l}</div></div>`).join('')}
+      </div>
+      <div style="font-size:.85rem;">
+        ${p.items.map(it=>`${it.cant}× ${it.nombre}`).join(' · ')}
+      </div>
+    </div>`;
+  }).join('') + `
+    <div class="ticket" style="background:var(--wine); color:var(--paper); text-align:center;">
+      <div style="font-family:'Caveat',cursive; font-size:1.4rem;">Total acumulado en tu mesa</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700;">${fmt(totalMesa)}</div>
+      <div style="font-size:.75rem; opacity:.85; margin-top:4px;">El pago se realiza en caja</div>
+    </div>
+    <a class="back-link" href="#" id="addMoreBtn">+ Agregar otro pedido a la mesa</a>`;
+  document.getElementById('addMoreBtn').onclick = (e)=>{
+    e.preventDefault();
+    document.getElementById('statusView').style.display='none';
+    document.getElementById('menuView').style.display='block';
+  };
+}
+function renderStatusIfPending(){
+  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]').filter(p=>p.mesa===mesa);
+  if(pedidos.length>0) showStatusScreen();
+}
+
+// ---- llamar al mozo ----
+document.getElementById('mozoFab').onclick = ()=> document.getElementById('mozoOverlay').classList.add('show');
+document.getElementById('closeMozo').onclick = ()=> document.getElementById('mozoOverlay').classList.remove('show');
+document.querySelectorAll('.motivo-btn').forEach(b=>{
+  b.onclick = ()=>{
+    const llamados = JSON.parse(localStorage.getItem('pideya_llamados')||'[]');
+    llamados.push({id:'L'+Date.now(), mesa, motivo:b.dataset.m, hora:Date.now(), atendido:false});
+    localStorage.setItem('pideya_llamados', JSON.stringify(llamados));
+    localStorage.setItem('pideya_ping', Date.now().toString());
+    document.getElementById('mozoOverlay').classList.remove('show');
+    showToast('Avisamos al mozo 🖐️');
+  };
+});
+
+// ---- sync en vivo (multi-pestaña) ----
+window.addEventListener('storage', (e)=>{
+  if(e.key==='pideya_pedidos' || e.key==='pideya_ping'){ if(document.getElementById('statusView').style.display!=='none') renderStatus(); }
+});
+setInterval(()=>{ if(document.getElementById('statusView').style.display!=='none') renderStatus(); }, 1500);
+
+renderCats();
+renderItems(CATS[0]);
+updateCartBar();
+renderStatusIfPending();
+</script>
+</body>
+</html>

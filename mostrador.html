@@ -3,76 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PideYa · Mostrador</title>
+<title>Mostrador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --chalk-bg:#16201A; --chalk-bg-2:#1E2A22; --chalk-line:#2E3D32;
-    --chalk-text:#F4F1E4; --chalk-text-dim:#94A192;
-    --paper:#F7F1E1; --paper-2:#EFE6CE; --ink:#2B2118; --ink-dim:#6B6152;
-    --amber:#D9A441; --amber-dark:#B8842E; --wine:#8A3636; --wine-dark:#6E2828; --sage:#5F8A66;
+    --bg:#16201A; --bg2:#1E2A22; --lineas:#2E3D32;
+    --texto:#F4F1E4; --texto-dim:#94A192;
+    --papel:#F7F1E1; --papel2:#EFE6CE; --tinta:#2B2118; --tinta-dim:#6B6152;
+    --acento:#D9A441; --acento-o:#B8842E; --alerta:#8A3636; --alerta-o:#6E2828; --exito:#5F8A66;
   }
   *{box-sizing:border-box;}
-  body{margin:0; font-family:'DM Sans',sans-serif; background:var(--chalk-bg); color:var(--chalk-text); min-height:100vh;}
-  header{display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid var(--chalk-line);
-    position:sticky; top:0; background:var(--chalk-bg); z-index:20;}
-  .brand{font-family:'Caveat',cursive; font-size:1.9rem; color:var(--amber); font-weight:700;}
-  .brand span{color:var(--chalk-text);}
-  .brand small{display:block; font-family:'DM Sans'; font-size:.65rem; letter-spacing:.08em; color:var(--chalk-text-dim); text-transform:uppercase;}
-  .manual-btn{background:var(--amber); color:var(--ink); border:none; padding:11px 18px; border-radius:999px; font-weight:700; cursor:pointer; font-size:.85rem;}
+  body{margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--texto); min-height:100vh;}
+  header{display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid var(--lineas);
+    position:sticky; top:0; background:var(--bg); z-index:20;}
+  .brand{font-family:'Playball',cursive; font-size:1.9rem; font-weight:400; color:var(--acento);}
+  .brand small{display:block; font-family:'DM Sans'; font-size:.65rem; letter-spacing:.08em; color:var(--texto-dim); text-transform:uppercase;}
+  .manual-btn{background:var(--acento); color:var(--tinta); border:none; padding:11px 18px; border-radius:999px; font-weight:700; cursor:pointer; font-size:.85rem;}
 
   .alerts{padding:0 22px; margin-top:14px;}
-  .alert-card{background:var(--wine); color:var(--paper); border-radius:12px; padding:12px 16px; display:flex;
+  .alert-card{background:var(--alerta); color:var(--papel); border-radius:12px; padding:12px 16px; display:flex;
     justify-content:space-between; align-items:center; margin-bottom:8px; animation:pulse 1.8s infinite;}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(138,54,54,.5);} 50%{box-shadow:0 0 0 8px rgba(138,54,54,0);}}
   .alert-left{display:flex; flex-direction:column;}
   .alert-mesa{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;}
   .alert-motivo{font-size:.82rem; opacity:.9;}
   .alert-time{font-size:.7rem; opacity:.7; margin-top:2px;}
-  .atendido-btn{background:var(--paper); color:var(--wine-dark); border:none; padding:8px 14px; border-radius:999px; font-weight:700; font-size:.78rem; cursor:pointer;}
+  .atendido-btn{background:var(--papel); color:var(--alerta-o); border:none; padding:8px 14px; border-radius:999px; font-weight:700; font-size:.78rem; cursor:pointer;}
 
   .board{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding:20px 22px 40px;}
   @media (max-width:880px){ .board{grid-template-columns:1fr;} }
-  .col h2{font-family:'Caveat',cursive; font-size:1.5rem; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
-  .col.nuevo h2{color:var(--amber);}
+  .col h2{font-family:'Playball',cursive; font-weight:400; font-size:1.5rem; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+  .col.nuevo h2{color:var(--acento);}
   .col.preparando h2{color:#E8C77A;}
-  .col.listo h2{color:var(--sage);}
-  .col-count{font-family:'JetBrains Mono',monospace; font-size:.75rem; background:var(--chalk-bg-2); padding:2px 9px; border-radius:999px; color:var(--chalk-text-dim);}
+  .col.listo h2{color:var(--exito);}
+  .col-count{font-family:'JetBrains Mono',monospace; font-size:.75rem; background:var(--bg2); padding:2px 9px; border-radius:999px; color:var(--texto-dim);}
 
-  .ticket{background:var(--paper); color:var(--ink); border-radius:4px 4px 12px 12px; padding:16px; margin-bottom:14px;
-    box-shadow:0 8px 18px rgba(0,0,0,.3); position:relative; cursor:pointer; border-top:3px dashed var(--wine);}
-  .ticket::before{content:''; position:absolute; top:-6px; left:16px; width:12px; height:12px; background:var(--wine); border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3);}
+  .ticket{background:var(--papel); color:var(--tinta); border-radius:4px 4px 12px 12px; padding:16px; margin-bottom:14px;
+    box-shadow:0 8px 18px rgba(0,0,0,.3); position:relative; cursor:pointer; border-top:3px dashed var(--alerta);}
+  .ticket::before{content:''; position:absolute; top:-6px; left:16px; width:12px; height:12px; background:var(--alerta); border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3);}
   .ticket-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
-  .ticket-mesa{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.1rem; color:var(--wine-dark);}
-  .ticket-time{font-size:.72rem; color:var(--ink-dim);}
-  .ticket-origen{font-size:.65rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:6px;}
+  .ticket-mesa{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.1rem; color:var(--alerta-o);}
+  .ticket-time{font-size:.72rem; color:var(--tinta-dim);}
+  .ticket-origen{font-size:.65rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--tinta-dim); margin-bottom:6px;}
   .ticket-items{font-size:.87rem; line-height:1.5; margin-bottom:8px;}
-  .ticket-total{font-family:'JetBrains Mono',monospace; font-weight:700; text-align:right; font-size:.95rem; border-top:1px dashed var(--paper-2); padding-top:6px;}
-  .ticket-hint{font-size:.68rem; color:var(--ink-dim); text-align:center; margin-top:8px;}
-  .empty-col{color:var(--chalk-text-dim); font-size:.85rem; padding:20px 0; text-align:center; border:1px dashed var(--chalk-line); border-radius:12px;}
+  .ticket-total{font-weight:700; text-align:right; font-size:.95rem; border-top:1px dashed var(--papel2); padding-top:6px;}
+  .ticket-hint{font-size:.68rem; color:var(--tinta-dim); text-align:center; margin-top:8px;}
+  .empty-col{color:var(--texto-dim); font-size:.85rem; padding:20px 0; text-align:center; border:1px dashed var(--lineas); border-radius:12px;}
 
   .overlay{position:fixed; inset:0; background:rgba(10,14,11,.65); display:none; align-items:center; justify-content:center; z-index:60; padding:20px;}
   .overlay.show{display:flex;}
-  .modal{background:var(--paper); color:var(--ink); border-radius:16px; padding:22px; width:100%; max-width:520px; max-height:88vh; overflow-y:auto; position:relative;}
-  .modal h3{font-family:'Caveat',cursive; font-size:1.7rem; color:var(--wine-dark); margin:0 0 14px;}
-  .close-x{position:absolute; top:16px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--ink-dim); cursor:pointer;}
-  .field-label{font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-dim); margin:14px 0 6px;}
-  .mesa-input{width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--paper-2); font-size:1rem; font-family:'JetBrains Mono',monospace;}
+  .modal{background:var(--papel); color:var(--tinta); border-radius:16px; padding:22px; width:100%; max-width:560px; max-height:88vh; overflow-y:auto; position:relative;}
+  .modal h3{font-family:'Playball',cursive; font-weight:400; font-size:1.8rem; color:var(--alerta-o); margin:0 0 14px;}
+  .close-x{position:absolute; top:16px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--tinta-dim); cursor:pointer;}
+  .field-label{font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--tinta-dim); margin:14px 0 6px;}
+  .mesa-input{width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--papel2); font-size:1rem; font-family:'JetBrains Mono',monospace;}
   .cat-mini{display:flex; gap:6px; overflow-x:auto; margin:4px 0 10px;}
-  .cat-mini button{flex:0 0 auto; padding:7px 13px; border-radius:999px; border:1px solid var(--paper-2); background:#fff; font-size:.78rem; font-weight:600; cursor:pointer;}
-  .cat-mini button.active{background:var(--amber); border-color:var(--amber);}
-  .mini-item{display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--paper-2); font-size:.88rem;}
-  .mini-item button{background:var(--paper-2); border:none; width:26px; height:26px; border-radius:50%; font-weight:700; cursor:pointer;}
-  .manual-cart{margin-top:14px; background:var(--paper-2); border-radius:10px; padding:10px 14px; font-size:.85rem;}
-  .confirm-btn{width:100%; background:var(--wine); color:var(--paper); border:none; padding:14px; border-radius:999px; font-weight:700; margin-top:14px; cursor:pointer;}
+  .cat-mini button{flex:0 0 auto; padding:7px 13px; border-radius:999px; border:1px solid var(--papel2); background:#fff; font-size:.76rem; font-weight:600; cursor:pointer;}
+  .cat-mini button.active{background:var(--acento); border-color:var(--acento);}
+  .mini-sec-title{font-weight:700; font-size:.8rem; color:var(--alerta-o); text-transform:uppercase; letter-spacing:.03em; margin:14px 0 4px;}
+  .mini-item{display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--papel2); font-size:.85rem; gap:8px;}
+  .mini-item .nm{flex:1;}
+  .mini-item button{background:var(--papel2); border:none; width:26px; height:26px; border-radius:50%; font-weight:700; cursor:pointer; flex:0 0 auto;}
+  .manual-cart{margin-top:14px; background:var(--papel2); border-radius:10px; padding:10px 14px; font-size:.85rem;}
+  .confirm-btn{width:100%; background:var(--alerta); color:var(--papel); border:none; padding:14px; border-radius:999px; font-weight:700; margin-top:14px; cursor:pointer;}
   .confirm-btn:disabled{opacity:.4;}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand"><span>Pide</span>Ya<small>Mostrador</small></div>
+  <div class="brand" id="brandWordmark"></div>
   <button class="manual-btn" id="openManual">+ Cargar pedido manual</button>
 </header>
 
@@ -99,24 +100,248 @@
 </div>
 
 <script>
-const MENU = [
-  {id:'e1',cat:'Entradas',nombre:'Provoleta',precio:4500},
-  {id:'e2',cat:'Entradas',nombre:'Empanadas de carne (x3)',precio:3800},
-  {id:'e3',cat:'Entradas',nombre:'Tabla de fiambres',precio:6200},
-  {id:'e4',cat:'Entradas',nombre:'Rabas',precio:5200},
-  {id:'p1',cat:'Principales',nombre:'Bife de chorizo',precio:9800},
-  {id:'p2',cat:'Principales',nombre:'Milanesa napolitana',precio:8200},
-  {id:'p3',cat:'Principales',nombre:'Ensalada Caesar',precio:6500},
-  {id:'p4',cat:'Principales',nombre:'Sorrentinos caseros',precio:7400},
-  {id:'b1',cat:'Bebidas',nombre:'Copa de Malbec',precio:3200},
-  {id:'b2',cat:'Bebidas',nombre:'Cerveza artesanal IPA',precio:3500},
-  {id:'b3',cat:'Bebidas',nombre:'Agua mineral',precio:1500},
-  {id:'b4',cat:'Bebidas',nombre:'Limonada casera',precio:2200},
-  {id:'d1',cat:'Postres',nombre:'Flan casero',precio:3000},
-  {id:'d2',cat:'Postres',nombre:'Brownie con helado',precio:3800},
-  {id:'d3',cat:'Postres',nombre:'Fruta de estación',precio:2500},
-];
-const CATS = ['Entradas','Principales','Bebidas','Postres'];
+/* ======================================================================
+   ▼▼▼  CONFIGURACIÓN — debe coincidir con la de index.html  ▼▼▼
+   ====================================================================== */
+const CONFIG = {
+  tituloPagina: "La Delicia del Boulevard · Mostrador",
+  marca: { texto: "La Delicia", texto2: "del Boulevard · Mostrador" },
+  storageKey: "delicia",
+  categorias: ["Desayunos","Para acompañar","Brunch y Tentaciones","Copas y helados","Almuerzo y Cena","Pizzas","Sandwiches","Para picar","Para beber","Sabores helados"],
+  menu: [
+    { cat:"Desayunos", secciones:[
+      { titulo:"Promos", items:[
+        {n:"01. Bebida caliente + 2 facturas", p:7600},
+        {n:"02. Bebida caliente + tostadas", p:7900},
+        {n:"03. Desayuno Americano — con jamón", p:12700},
+        {n:"03. Desayuno Americano — con panceta", p:13000},
+        {n:"04. Bebida caliente + 2 medialunas", p:8700},
+        {n:"05. Bebida caliente + tostón de palta", p:9800},
+        {n:"06. Jugo o bebida caliente + tostado", p:15000},
+        {n:"07. Bebida caliente + porción de torta o tarta", p:13500},
+        {n:"08. Yogur completo", p:11800},
+        {n:"09. Bebida caliente + 1 raspadita", p:7800},
+      ]},
+      { titulo:"Cafetería", items:[
+        {n:"Café chico", p:3500}, {n:"Café mediano", p:3900}, {n:"Café grande", p:4400},
+      ]},
+      { titulo:"Cafés especiales", items:[
+        {n:"Capuchino", p:7500}, {n:"Caramelo Macchiato", p:7400}, {n:"Bombón", p:7900},
+        {n:"Argentino", p:7700}, {n:"Baileys", p:8800}, {n:"Jamaiquino", p:8100},
+      ]},
+      { titulo:"Chocolate con leche", items:[
+        {n:"Submarino", p:7200}, {n:"Jarra de chocolate (4 personas)", p:9500},
+        {n:"Jarrita de chocolate caliente / chocolatada fría", p:6200}, {n:"Jarrita de leche", p:650},
+        {n:"Adicional leche de almendras", p:1500}, {n:"Adicional leche de almendras (chico/mediano)", p:800},
+      ]},
+      { titulo:"Té", items:[ {n:"Té a elección", p:2800} ]},
+      { titulo:"Té en hebras", items:[ {n:"Té en hebras orgánico", p:4000} ]},
+    ]},
+    { cat:"Para acompañar", secciones:[
+      { titulo:"Tortas y tartas", items:[ {n:"Torta a elección", p:11500}, {n:"Tarta a elección", p:11000} ]},
+      { titulo:"Opciones dulces", items:[
+        {n:"Factura común, especial o raspadita", p:2100}, {n:"Cookie de vainilla", p:2500},
+        {n:"Scons de queso", p:4600}, {n:"Muffin de harina de arroz", p:1800}, {n:"Muffin Keto", p:2600},
+        {n:"Croissant", p:2500}, {n:"Tres masas finas o tres masas secas", p:2200},
+        {n:"Tostadas Francesas", p:9500}, {n:"Tres pancakes de harina de arroz", p:8900},
+      ]},
+      { titulo:"Opciones saladas", items:[
+        {n:"Medialuna con jamón y queso", p:3600}, {n:"Raspadita con jamón y queso", p:4200},
+        {n:"Croissant con jamón y queso", p:5000}, {n:"Omelette", p:5200},
+        {n:"Tostón de palta doble", p:9000}, {n:"Tostón de palta simple", p:4500},
+        {n:"Huevos Benedictinos — palta y cherry", p:8800}, {n:"Huevos Benedictinos — tomate y albahaca", p:8600},
+        {n:"Huevos Benedictinos — jamón crudo y olivas", p:9700}, {n:"Huevo revuelto con jamón", p:5200},
+        {n:"Huevo revuelto con panceta", p:5600}, {n:"Scons de queso con tomates secos y jamón crudo", p:4600},
+      ]},
+      { titulo:"Acompañamientos y adicionales", items:[
+        {n:"Yogur origen vacuno", p:4400}, {n:"Porción de granola", p:900}, {n:"Porción de frutos rojos", p:2000},
+        {n:"Porción de frutillas frescas", p:3000}, {n:"Porción de frutas frescas", p:2000},
+        {n:"Porción de frutos secos", p:2000}, {n:"Tres tostadas", p:5200}, {n:"Pan Keto (unidad)", p:2000},
+        {n:"Rollo de jamón o queso", p:2700}, {n:"Media palta fresca", p:3600},
+      ]},
+      { titulo:"Para degustar", items:[
+        {n:"Ocho masas finas a elección (para dos)", p:8000}, {n:"Picoteo Dulce (para dos)", p:23500},
+        {n:"Plato Dulce/Salado (para una persona)", p:16000}, {n:"Torre Boulevard", p:23000},
+      ]},
+    ]},
+    { cat:"Brunch y Tentaciones", secciones:[
+      { titulo:"Brunches", items:[ {n:"Brunch Saludable", p:28500}, {n:"Brunch Mixto (para dos)", p:32500} ]},
+      { titulo:"Croissants rellenos", items:[
+        {n:"01. Panceta, huevo revuelto y queso cheddar", p:12300},
+        {n:"02. Rúcula, palta y queso pategrás", p:12600},
+        {n:"03. Huevo revuelto, pategrás y tomates cherries", p:12200},
+      ]},
+      { titulo:"Crepes", items:[
+        {n:"De manzana", p:13000}, {n:"A la banana", p:13000}, {n:"De frutillas", p:13000}, {n:"De dulce de leche", p:13000},
+      ]},
+      { titulo:"Merengue", items:[ {n:"Merengue con ensalada de fruta", p:8500} ]},
+      { titulo:"Con frutas", items:[
+        {n:"Ensalada de frutas", p:8500}, {n:"Ensalada de frutas + helado o chantilly", p:10000},
+        {n:"Ensalada de frutas + helado y chantilly", p:11000}, {n:"Frutillas frescas (estación)", p:13000},
+        {n:"Frutillas frescas + helado o chantilly", p:14000}, {n:"Frutillas frescas + helado y chantilly", p:15000},
+      ]},
+      { titulo:"Tortas heladas", items:[ {n:"Torta helada a elección", p:4500} ]},
+    ]},
+    { cat:"Copas y helados", secciones:[
+      { titulo:"Copas con helado", items:[
+        {n:"Alfajor", p:13000}, {n:"Banana Split", p:13000}, {n:"Boulevard", p:13000}, {n:"Brownie", p:13000},
+        {n:"Copa tres gustos", p:13000}, {n:"Chajá", p:13000}, {n:"Don Pedro", p:13000}, {n:"Jamaica", p:13000},
+        {n:"Manjar Mendocino", p:13000}, {n:"Pera al Rosé", p:13000}, {n:"Tiramisú", p:13000}, {n:"Tucumana", p:13000},
+      ]},
+      { titulo:"Armalo a tu gusto", items:[
+        {n:"Copa dos gustos", p:8600}, {n:"Capelina", p:12000}, {n:"Picoteo Helado (para dos)", p:14500},
+        {n:"Waffle de vainilla", p:13500}, {n:"Cookie de vainilla + 2 bochas", p:9700}, {n:"Cookie de Nutella + 2 bochas", p:9700},
+      ]},
+    ]},
+    { cat:"Almuerzo y Cena", secciones:[
+      { titulo:"Al plato (con guarnición)", items:[
+        {n:"Ojo de bife", p:33000}, {n:"Carne a la masa", p:36000}, {n:"Milanesa", p:25500},
+        {n:"Milanesa napolitana", p:27000}, {n:"Milanesa a caballo", p:25500}, {n:"Matambre a la pizza", p:31000},
+        {n:"Matambre con crema de verdeo y champiñones", p:31500},
+      ]},
+      { titulo:"Al plato (sin guarnición)", items:[
+        {n:"Lasagna vegetariana de estación", p:18500}, {n:"Wok de vegetales con arroz Yamaní", p:17900},
+        {n:"Saludable (bife de pollo o filet)", p:17000}, {n:"Bife de pollo", p:9200}, {n:"Bife de filet", p:12000},
+      ]},
+      { titulo:"Ensaladas", items:[
+        {n:"Caesar Salad", p:14500}, {n:"De La Finca", p:15800}, {n:"Rúcula y remolacha", p:12600},
+        {n:"Vegetariana", p:11800}, {n:"Griega", p:12900}, {n:"Agregar huevo poché", p:1800},
+      ]},
+      { titulo:"Armalá a tu gusto (ensaladas)", items:[
+        {n:"Lechuga", p:2700}, {n:"Tomate", p:2900}, {n:"Zanahoria", p:2700}, {n:"Cebolla", p:2500},
+        {n:"Rúcula", p:3000}, {n:"Manzana", p:3000}, {n:"Queso", p:8300}, {n:"Jamón cocido", p:8000},
+        {n:"Jamón crudo", p:7500}, {n:"Panceta salada", p:8700}, {n:"Salames varios", p:9400},
+        {n:"Pollo", p:12800}, {n:"Huevo duro", p:4500}, {n:"Palta fresca", p:3600},
+      ]},
+    ]},
+    { cat:"Pizzas", secciones:[
+      { titulo:"Nuestras pizzas", items:[
+        {n:"01. Mozzarella", p:31000}, {n:"02. Especial", p:32500}, {n:"03. Caprese", p:33200},
+        {n:"04. Hawaiana", p:32900}, {n:"05. Boulevard", p:32200}, {n:"06. Fungi", p:31400},
+        {n:"07. Mediterránea", p:34700}, {n:"08. Vegetariana", p:32900}, {n:"09. Americana", p:33600},
+        {n:"10. Fugazza", p:31800}, {n:"11. Cuatro quesos", p:34000}, {n:"12. Keto (individual)", p:22500},
+        {n:"Agregar huevo (opcional)", p:4500},
+      ]},
+    ]},
+    { cat:"Sandwiches", secciones:[
+      { titulo:"En panini (simple)", items:[
+        {n:"01. Lomito — Simple", p:25800}, {n:"02. Boulevard — Simple", p:26400},
+        {n:"03. Americano — Simple", p:21800}, {n:"04. Ave Palta — Simple", p:22500},
+        {n:"Adicional pan Keto", p:3800},
+      ]},
+      { titulo:"En panini (extra)", items:[
+        {n:"01. Lomito — Extra", p:37500}, {n:"02. Boulevard — Extra", p:38800},
+        {n:"03. Americano — Extra", p:31300}, {n:"04. Ave Palta — Extra", p:35800},
+      ]},
+      { titulo:"Hamburguesas", items:[
+        {n:"Adicional pan hamburguesa Keto", p:3700}, {n:"01. Chesse", p:19800}, {n:"02. Boulevard", p:21000},
+        {n:"03. Mole Burguer", p:20500}, {n:"04. La Distinta", p:20400}, {n:"05. Clásica", p:19200}, {n:"06. Veggie", p:17200},
+      ]},
+      { titulo:"Bagels", items:[
+        {n:"01. Blanco de ave", p:10500}, {n:"02. Jamón, queso y huevo revuelto", p:10500}, {n:"03. Lechuga y tomate", p:10500},
+      ]},
+      { titulo:"En pan de campo", items:[
+        {n:"01. Jamón crudo, oliva, rúcula y tomates secos", p:17600},
+        {n:"02. Jamón crudo, queso crema, cibullete y pategrás", p:18200},
+      ]},
+      { titulo:"Club sandwich", items:[ {n:"01. Blanco de ave", p:12500}, {n:"02. Peceto", p:14200} ]},
+      { titulo:"Saludables", items:[
+        {n:"Veggie 01", p:19500}, {n:"Veggie 02", p:18800}, {n:"Keto 01", p:18500}, {n:"Keto 02", p:17200}, {n:"Keto 03", p:16700},
+      ]},
+      { titulo:"Triples", items:[
+        {n:"01. Jamón cocido y queso", p:13000}, {n:"02. Jamón cocido, queso y verdura", p:13500},
+        {n:"03. Queso", p:13000}, {n:"04. Queso y verdura", p:13500}, {n:"05. Jamón crudo y queso", p:13500},
+      ]},
+    ]},
+    { cat:"Para picar", secciones:[
+      { titulo:"A la sartén", items:[
+        {n:"Papas fritas", p:13500}, {n:"Papas fritas a la provenzal", p:13700}, {n:"Papas con cheddar", p:14200},
+        {n:"Papas Boulevard", p:15600}, {n:"Fingers de pollo con salsas", p:15200}, {n:"Tortilla de papa", p:13100},
+      ]},
+      { titulo:"Bruschettas (x2)", items:[ {n:"Bruschettas a elección", p:13800} ]},
+      { titulo:"Tartas", items:[
+        {n:"Jamón y queso", p:18500}, {n:"Humita y queso", p:16300}, {n:"Espinaca, calabaza y queso", p:15000}, {n:"Pollo y queso", p:17400},
+      ]},
+      { titulo:"Empanadas", items:[
+        {n:"Criolla", p:5400}, {n:"Jamón y queso", p:5500}, {n:"Caprese", p:5500},
+        {n:"Atún y queso", p:5200}, {n:"Espinaca y queso", p:4800}, {n:"Verduras surtidas (sin queso)", p:4700},
+      ]},
+      { titulo:"Para los peques", items:[
+        {n:"Hamburguesa con cheddar y papas", p:18000}, {n:"Fingers de pollo con papas", p:13000}, {n:"Milanesa de ternera con papas sonrisas", p:12500},
+      ]},
+      { titulo:"Picadas", items:[
+        {n:"01. Para dos", p:29500}, {n:"02. Picada Boulevard (comen dos, pican cuatro)", p:53000},
+        {n:"03. La Irresistible (comen dos, pican cuatro)", p:49500}, {n:"04. Picada Veggie (comen dos, pican cuatro)", p:51000},
+        {n:"05. La Picada (comen dos, pican cuatro)", p:54000},
+      ]},
+    ]},
+    { cat:"Para beber", secciones:[
+      { titulo:"Jugos y limonadas", items:[
+        {n:"Jugo de naranja Citric mediano", p:3600}, {n:"Jugo de naranja Citric grande", p:4000},
+        {n:"Agua de limón, pepino y menta (jarra)", p:7200}, {n:"Agua de manzana, frutilla y canela (jarra)", p:7200},
+        {n:"Agua de jengibre, limón y naranja (jarra)", p:7200}, {n:"Limonada sin azúcar (jarra)", p:7200},
+        {n:"Limonada sin azúcar (vaso)", p:3300}, {n:"Licuado", p:6600}, {n:"Malteada de leche y helado", p:6600},
+        {n:"Malteada de frutillas o bananas", p:6600}, {n:"Adicional leche de almendras", p:1500},
+      ]},
+      { titulo:"Frappés", items:[
+        {n:"La Delicia", p:6500}, {n:"Azteca", p:6500}, {n:"Cremoso de Vainilla", p:6500}, {n:"Tiramisú", p:6500}, {n:"Frappé cremoso", p:6500},
+      ]},
+      { titulo:"Frappés frutales", items:[
+        {n:"Tropical", p:5500}, {n:"Verano", p:5500}, {n:"Lemonetto", p:5500}, {n:"Fresco", p:5500},
+      ]},
+      { titulo:"Sin alcohol", items:[
+        {n:"Gaseosas y aguas saborizadas (individual)", p:4000}, {n:"Agua con o sin gas (individual)", p:3500},
+        {n:"Gaseosa 1250ml", p:5800}, {n:"Gaseosa light (individual)", p:4000},
+      ]},
+      { titulo:"Cervezas", items:[
+        {n:"Stella Artois rubia (1L)", p:8700}, {n:"Stella Artois sin alcohol (330ml)", p:5500},
+        {n:"Andes Origen rubia, negra o IPA (1L)", p:7600}, {n:"Quilmes Stout (1L)", p:6900},
+        {n:"Quilmes (1L) o Andes clásica (970ml)", p:6900}, {n:"Quilmes (individual)", p:5300},
+        {n:"Quilmes Stout (individual)", p:5300}, {n:"Corona (710ml)", p:8300}, {n:"Corona (330ml)", p:6500},
+        {n:"Patagonia Amber o Bohemian (740ml)", p:8400}, {n:"Michelob sin TACC (473ml)", p:5400},
+      ]},
+      { titulo:"Vinos blancos y rosados", items:[
+        {n:"Copa de vino blanco", p:6600}, {n:"Conejo Verde blanc de blancs", p:9500},
+        {n:"La Abeja Torrontés dulce tardío -reserva-", p:16200}, {n:"La Abeja Tempranillo Rose", p:13200},
+        {n:"Latitud 33 Chardonnay", p:10700}, {n:"Latitud 33 Malbec Rosé", p:10900},
+        {n:"Conejo Verde Chenin (aluminio)", p:9600}, {n:"Conejo Verde Rosé (aluminio)", p:9600},
+      ]},
+      { titulo:"Vinos tintos", items:[
+        {n:"Copa de vino tinto", p:6600}, {n:"Argana Malbec", p:12700}, {n:"Argana Cabernet", p:12300},
+        {n:"Bournett Malbec I.G.", p:7600}, {n:"Bournett Merlot I.G.", p:7600}, {n:"Conejo Verde Malbec", p:9500},
+        {n:"Killka Malbec", p:13700}, {n:"Portillo Malbec", p:9500}, {n:"Sexy Fish Malbec", p:8200}, {n:"Sexy Fish Cabernet Franc", p:8300},
+      ]},
+      { titulo:"Espumantes", items:[ {n:"Murville Extra Brut", p:8500} ]},
+      { titulo:"Cócteles", items:[
+        {n:"Cynar Julep", p:7000}, {n:"Dolce Vita", p:7200}, {n:"Gancia batido", p:6700}, {n:"Gin Tónic", p:9300},
+        {n:"Penicillin", p:8400}, {n:"Gaucho", p:8300}, {n:"Amore Milano", p:7800}, {n:"Basil Smash", p:8300},
+        {n:"Mojito", p:7500}, {n:"Aperol Sprizt", p:7300}, {n:"Negroni", p:7200}, {n:"Fernet preparado", p:7200},
+        {n:"Campari preparado", p:7800}, {n:"Gancia preparado", p:6500}, {n:"Baileys Frozzen", p:10700},
+        {n:"Gancia Boulevard", p:7600}, {n:"1930", p:7700}, {n:"Tequila Sunrise", p:7900},
+        {n:"Sunset (sin alcohol)", p:7000}, {n:"Tónico (sin alcohol)", p:7000},
+      ]},
+      { titulo:"Bebidas por medidas", items:[
+        {n:"Baileys", p:9800}, {n:"Fernet Branca", p:11700}, {n:"Whisky Ballantines", p:9600}, {n:"Whisky Jameson", p:9800},
+        {n:"Whisky Jack Daniels", p:11200}, {n:"Whisky Jack Daniels Honey", p:12200},
+        {n:"Whisky Johnnie Walker etiqueta roja", p:10200}, {n:"Whisky Blenders", p:7400},
+      ]},
+    ]},
+    { cat:"Sabores helados", secciones:[] },
+  ]
+};
+/* ======================================================================
+   ▲▲▲  FIN DE LA CONFIGURACIÓN  ▲▲▲
+   ====================================================================== */
+
+(function aplicarTema(){
+  document.title = CONFIG.tituloPagina;
+  document.getElementById('brandWordmark').innerHTML = `${CONFIG.marca.texto}<small>${CONFIG.marca.texto2}</small>`;
+})();
+
+const MENU = CONFIG.menu;
+const CATS = CONFIG.categorias;
+const SK = k => 'pideya_'+CONFIG.storageKey+'_'+k;
+
 function fmt(n){ return '$' + n.toLocaleString('es-AR'); }
 function tAgo(ts){
   const min = Math.floor((Date.now()-ts)/60000);
@@ -125,10 +350,22 @@ function tAgo(ts){
   return 'hace '+min+' min';
 }
 
-function getPedidos(){ return JSON.parse(localStorage.getItem('pideya_pedidos')||'[]'); }
-function setPedidos(p){ localStorage.setItem('pideya_pedidos', JSON.stringify(p)); localStorage.setItem('pideya_ping', Date.now().toString()); }
-function getLlamados(){ return JSON.parse(localStorage.getItem('pideya_llamados')||'[]'); }
-function setLlamados(l){ localStorage.setItem('pideya_llamados', JSON.stringify(l)); localStorage.setItem('pideya_ping', Date.now().toString()); }
+// mapa id -> {nombre, precio}
+function buildLookup(){
+  const map = {};
+  MENU.forEach((catObj,ci)=>{
+    catObj.secciones.forEach((sec,si)=>{
+      sec.items.forEach((it,ii)=>{ map[`${ci}-${si}-${ii}`] = {nombre: it.n, precio: it.p}; });
+    });
+  });
+  return map;
+}
+const LOOKUP = buildLookup();
+
+function getPedidos(){ return JSON.parse(localStorage.getItem(SK('pedidos'))||'[]'); }
+function setPedidos(p){ localStorage.setItem(SK('pedidos'), JSON.stringify(p)); localStorage.setItem(SK('ping'), Date.now().toString()); }
+function getLlamados(){ return JSON.parse(localStorage.getItem(SK('llamados'))||'[]'); }
+function setLlamados(l){ localStorage.setItem(SK('llamados'), JSON.stringify(l)); localStorage.setItem(SK('ping'), Date.now().toString()); }
 
 function renderAlerts(){
   const llamados = getLlamados().filter(l=>!l.atendido);
@@ -182,11 +419,7 @@ function renderBoard(){
       if(!p) return;
       if(p.estado==='nuevo') p.estado='preparando';
       else if(p.estado==='preparando') p.estado='listo';
-      else if(p.estado==='listo'){ 
-        // entregado -> lo saca del tablero
-        const idx = pedidos.indexOf(p);
-        pedidos.splice(idx,1);
-      }
+      else if(p.estado==='listo'){ const idx = pedidos.indexOf(p); pedidos.splice(idx,1); }
       setPedidos(pedidos);
       renderBoard();
     };
@@ -195,27 +428,37 @@ function renderBoard(){
 
 // ---- carga manual ----
 let manualCart = {};
-document.getElementById('openManual').onclick = ()=>{ manualCart={}; document.getElementById('manualMesa').value=''; renderManualCatBtns(); renderManualItems(CATS[0]); updateManualSummary(); document.getElementById('manualOverlay').classList.add('show'); };
+let manualCatIdx = 0;
+document.getElementById('openManual').onclick = ()=>{ manualCart={}; manualCatIdx=0; document.getElementById('manualMesa').value=''; renderManualCatBtns(); renderManualItems(); updateManualSummary(); document.getElementById('manualOverlay').classList.add('show'); };
 document.getElementById('closeManual').onclick = ()=> document.getElementById('manualOverlay').classList.remove('show');
 
 function renderManualCatBtns(){
   const box = document.getElementById('miniCats');
-  box.innerHTML = CATS.map((c,i)=>`<button class="${i===0?'active':''}" data-c="${c}">${c}</button>`).join('');
+  box.innerHTML = CATS.map((c,i)=>`<button class="${i===manualCatIdx?'active':''}" data-i="${i}">${c}</button>`).join('');
   box.querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{ box.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderManualItems(b.dataset.c); };
+    b.onclick=()=>{ manualCatIdx = parseInt(b.dataset.i); box.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderManualItems(); };
   });
 }
-function renderManualItems(cat){
+function renderManualItems(){
   const box = document.getElementById('miniItems');
-  box.innerHTML = MENU.filter(m=>m.cat===cat).map(m=>`
-    <div class="mini-item">
-      <span>${m.nombre} — ${fmt(m.precio)}</span>
-      <span style="display:flex;align-items:center;gap:8px;">
-        <button data-id="${m.id}" data-op="-">−</button>
-        <span id="qty-${m.id}">${manualCart[m.id]||0}</span>
-        <button data-id="${m.id}" data-op="+">+</button>
-      </span>
-    </div>`).join('');
+  const catObj = MENU[manualCatIdx];
+  if(!catObj.secciones.length){ box.innerHTML = '<div style="padding:14px 0;color:var(--tinta-dim);font-size:.85rem;">Esta categoría es solo informativa (sabores de helado) — no tiene precio propio para cargar.</div>'; return; }
+  let html = '';
+  catObj.secciones.forEach((sec,si)=>{
+    html += `<div class="mini-sec-title">${sec.titulo}</div>`;
+    sec.items.forEach((it,ii)=>{
+      const id = `${manualCatIdx}-${si}-${ii}`;
+      html += `<div class="mini-item">
+        <span class="nm">${it.n} — ${fmt(it.p)}</span>
+        <span style="display:flex;align-items:center;gap:8px;">
+          <button data-id="${id}" data-op="-">−</button>
+          <span id="qty-${id}">${manualCart[id]||0}</span>
+          <button data-id="${id}" data-op="+">+</button>
+        </span>
+      </div>`;
+    });
+  });
+  box.innerHTML = html;
   box.querySelectorAll('button').forEach(b=>{
     b.onclick = ()=>{
       const id=b.dataset.id;
@@ -229,8 +472,8 @@ function renderManualItems(cat){
 function updateManualSummary(){
   const entries = Object.entries(manualCart);
   const summary = document.getElementById('manualCartSummary');
-  const total = entries.reduce((s,[id,q])=> s + MENU.find(m=>m.id===id).precio*q, 0);
-  summary.textContent = entries.length? entries.map(([id,q])=>`${q}× ${MENU.find(m=>m.id===id).nombre}`).join(' · ') + ` — ${fmt(total)}` : 'Sin productos agregados';
+  const total = entries.reduce((s,[id,q])=> s + LOOKUP[id].precio*q, 0);
+  summary.textContent = entries.length? entries.map(([id,q])=>`${q}× ${LOOKUP[id].nombre}`).join(' · ') + ` — ${fmt(total)}` : 'Sin productos agregados';
   document.getElementById('confirmManual').disabled = !(entries.length && document.getElementById('manualMesa').value.trim());
 }
 document.getElementById('manualMesa').addEventListener('input', updateManualSummary);
@@ -239,7 +482,7 @@ document.getElementById('confirmManual').onclick = ()=>{
   const mesa = document.getElementById('manualMesa').value.trim();
   const entries = Object.entries(manualCart);
   if(!mesa || !entries.length) return;
-  const items = entries.map(([id,q])=>{ const m=MENU.find(x=>x.id===id); return {nombre:m.nombre, precio:m.precio, cant:q}; });
+  const items = entries.map(([id,q])=>{ const m=LOOKUP[id]; return {nombre:m.nombre, precio:m.precio, cant:q}; });
   const total = items.reduce((s,it)=>s+it.precio*it.cant,0);
   const pedidos = getPedidos();
   pedidos.push({id:'P'+Date.now(), mesa, items, total, estado:'nuevo', hora:Date.now(), origen:'mozo'});
@@ -248,9 +491,8 @@ document.getElementById('confirmManual').onclick = ()=>{
   renderBoard();
 };
 
-// ---- sync ----
 window.addEventListener('storage', (e)=>{
-  if(['pideya_pedidos','pideya_llamados','pideya_ping'].includes(e.key)){ renderBoard(); renderAlerts(); }
+  if([SK('pedidos'),SK('llamados'),SK('ping')].includes(e.key)){ renderBoard(); renderAlerts(); }
 });
 setInterval(()=>{ renderBoard(); renderAlerts(); }, 4000);
 

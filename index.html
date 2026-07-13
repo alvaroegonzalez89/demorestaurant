@@ -3,131 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>PideYa · Carta</title>
+<title>Carta Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --chalk-bg:#1E2A22;
-    --chalk-bg-2:#16201A;
-    --chalk-line:#2E3D32;
-    --chalk-text:#F4F1E4;
-    --chalk-text-dim:#B9C2B7;
-    --paper:#F7F1E1;
-    --paper-2:#EFE6CE;
-    --ink:#2B2118;
-    --ink-dim:#6B6152;
-    --amber:#D9A441;
-    --amber-dark:#B8842E;
-    --wine:#8A3636;
-    --wine-dark:#6E2828;
-    --sage:#6B8F71;
+    --bg:#1E2A22; --bg2:#16201A; --lineas:#2E3D32;
+    --texto:#F4F1E4; --texto-dim:#B9C2B7;
+    --papel:#F7F1E1; --papel2:#EFE6CE; --tinta:#2B2118; --tinta-dim:#6B6152;
+    --acento:#D9A441; --acento-o:#B8842E; --alerta:#8A3636; --alerta-o:#6E2828; --exito:#6B8F71; --banda2:#B9AC8A;
     --radius:14px;
   }
   *{box-sizing:border-box;}
-  body{margin:0;font-family:'DM Sans',sans-serif;background:var(--chalk-bg);color:var(--chalk-text);
-    background-image:radial-gradient(ellipse at top, #24332A 0%, #1E2A22 55%, #16201A 100%);
+  body{margin:0;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--texto);
     min-height:100vh; padding-bottom:110px;}
-  header.top{padding:22px 20px 14px; text-align:center; position:relative;}
-  .brand{font-family:'Caveat',cursive; font-size:2.4rem; font-weight:700; color:var(--amber); line-height:1;}
-  .brand span{color:var(--chalk-text);}
-  .mesa-badge{display:inline-flex; align-items:center; gap:8px; margin-top:10px; background:var(--wine);
-    color:var(--paper); font-family:'JetBrains Mono',monospace; font-weight:700; letter-spacing:.08em;
+  header.top{padding:26px 20px 16px; text-align:center; position:relative;}
+  .steam-wrap{position:relative; width:46px; height:34px; margin:0 auto 4px;}
+  .steam{position:absolute; bottom:14px; width:4px; height:16px; border-radius:4px; background:var(--acento); opacity:.75;
+    animation:steamRise 2.6s ease-in-out infinite;}
+  .steam:nth-child(1){left:10px; animation-delay:0s;}
+  .steam:nth-child(2){left:20px; animation-delay:.6s;}
+  .steam:nth-child(3){left:30px; animation-delay:1.2s;}
+  @keyframes steamRise{
+    0%{ transform:translateY(0) scaleX(1); opacity:0; }
+    20%{ opacity:.8; }
+    100%{ transform:translateY(-26px) scaleX(1.6); opacity:0; }
+  }
+  .cup{font-size:1.6rem; line-height:1;}
+  .brand{font-family:'Playball',cursive; font-size:2.5rem; font-weight:400; color:var(--acento); line-height:1;}
+  .brand small{display:block; font-family:'DM Sans'; font-size:.65rem; letter-spacing:.16em; color:var(--texto-dim); text-transform:uppercase; margin-top:2px;}
+  .mesa-badge{display:inline-flex; align-items:center; gap:8px; margin-top:12px; background:var(--alerta);
+    color:var(--papel); font-family:'JetBrains Mono',monospace; font-weight:700; letter-spacing:.08em;
     padding:8px 18px; border-radius:999px; font-size:.95rem; box-shadow:0 4px 14px rgba(0,0,0,.35);}
-  .mesa-edit{background:none;border:none;color:var(--paper);opacity:.75;cursor:pointer;font-size:.8rem;text-decoration:underline;margin-top:6px;}
+  .mesa-edit{background:none;border:none;color:var(--texto);opacity:.6;cursor:pointer;font-size:.78rem;text-decoration:underline;margin-top:6px;}
 
   .cats{display:flex; gap:8px; overflow-x:auto; padding:6px 16px 14px; scrollbar-width:none;}
   .cats::-webkit-scrollbar{display:none;}
-  .cat-btn{flex:0 0 auto; padding:9px 16px; border-radius:999px; border:1px solid var(--chalk-line);
-    background:var(--chalk-bg-2); color:var(--chalk-text-dim); font-family:'DM Sans'; font-weight:600;
-    font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.15s;}
-  .cat-btn.active{background:var(--amber); color:var(--ink); border-color:var(--amber);}
+  .cat-btn{flex:0 0 auto; padding:9px 15px; border-radius:999px; border:1px solid var(--lineas);
+    background:var(--bg2); color:var(--texto-dim); font-family:'DM Sans'; font-weight:600;
+    font-size:.82rem; cursor:pointer; white-space:nowrap; transition:.15s;}
+  .cat-btn.active{background:var(--acento); color:var(--tinta); border-color:var(--acento);}
 
   main{padding:4px 16px 20px; max-width:640px; margin:0 auto;}
-  .cat-title{font-family:'Caveat',cursive; font-size:1.7rem; color:var(--amber); margin:18px 4px 8px;}
 
-  .item{background:var(--paper); color:var(--ink); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px;
+  .sec-banner{margin:20px 0 10px; padding:9px 16px; border-radius:8px; font-family:'Poppins',sans-serif;
+    font-weight:700; font-size:.92rem; letter-spacing:.03em; text-transform:uppercase; color:#fff;
+    display:flex; justify-content:space-between; align-items:center; gap:10px;}
+  .sec-banner .nota{font-family:'DM Sans'; font-weight:400; font-size:.7rem; text-transform:none; opacity:.9; letter-spacing:0;}
+
+  .item{background:var(--papel); color:var(--tinta); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px;
     display:flex; justify-content:space-between; gap:12px; box-shadow:0 6px 16px rgba(0,0,0,.22);
-    border:1px solid var(--paper-2);}
+    border:1px solid var(--papel2);}
   .item-info{flex:1;}
-  .item-name{font-weight:700; font-size:1.02rem;}
-  .item-desc{color:var(--ink-dim); font-size:.82rem; margin-top:3px; line-height:1.35;}
-  .badges{margin-top:7px; display:flex; gap:6px; flex-wrap:wrap;}
-  .badge{font-size:.66rem; font-weight:700; letter-spacing:.03em; padding:3px 8px; border-radius:999px;}
-  .badge.tacc{background:#E4EFE0; color:#3F6B44;}
-  .badge.lac{background:#E6EEF5; color:#355A80;}
-  .item-price{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--wine-dark); margin-top:8px; font-size:.95rem;}
+  .item-name{font-weight:700; font-size:.98rem;}
+  .item-desc{color:var(--tinta-dim); font-size:.8rem; margin-top:3px; line-height:1.4;}
+  .item-price{font-weight:700; color:var(--acento-o); margin-top:8px; font-size:.92rem;}
 
-  .qty-box{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:76px;}
-  .qty-stepper{display:flex; align-items:center; gap:0; background:var(--paper-2); border-radius:999px; overflow:hidden;}
-  .qty-stepper button{width:30px; height:30px; border:none; background:none; font-size:1.1rem; font-weight:700; color:var(--ink); cursor:pointer;}
+  .qty-box{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:78px;}
+  .qty-stepper{display:flex; align-items:center; gap:0; background:var(--papel2); border-radius:999px; overflow:hidden;}
+  .qty-stepper button{width:30px; height:30px; border:none; background:none; font-size:1.1rem; font-weight:700; color:var(--tinta); cursor:pointer;}
   .qty-stepper span{min-width:20px; text-align:center; font-weight:700;}
-  .add-btn{background:var(--amber); border:none; color:var(--ink); font-weight:700; font-size:.8rem;
-    padding:8px 14px; border-radius:999px; cursor:pointer;}
-  .add-btn:active{transform:scale(.96);}
+  .add-btn{background:var(--acento); border:none; color:var(--tinta); font-weight:700; font-size:.76rem;
+    padding:8px 12px; border-radius:999px; cursor:pointer;}
+  .variant-row{display:flex; flex-direction:column; gap:6px; align-items:flex-end;}
+  .variant-row .add-btn{width:100%; text-align:center;}
 
-  /* barra flotante carrito */
-  .cart-bar{position:fixed; left:16px; right:16px; bottom:16px; background:var(--amber); color:var(--ink);
+  .info-box{background:var(--papel2); color:var(--tinta); border-radius:var(--radius); padding:14px 16px; margin-bottom:14px; font-size:.85rem; line-height:1.7;}
+  .info-box b{color:var(--acento-o);}
+
+  .cart-bar{position:fixed; left:16px; right:16px; bottom:16px; background:var(--acento); color:var(--tinta);
     border-radius:16px; padding:14px 18px; display:none; align-items:center; justify-content:space-between;
     box-shadow:0 10px 30px rgba(0,0,0,.4); cursor:pointer; z-index:40; max-width:608px; margin:0 auto;}
   .cart-bar.show{display:flex;}
   .cart-bar .left{display:flex; flex-direction:column;}
   .cart-bar .count{font-size:.72rem; font-weight:700; opacity:.75;}
-  .cart-bar .total{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.15rem;}
-  .cart-bar .cta{background:var(--ink); color:var(--paper); padding:9px 16px; border-radius:999px; font-weight:700; font-size:.85rem;}
+  .cart-bar .total{font-weight:700; font-size:1.15rem;}
+  .cart-bar .cta{background:var(--tinta); color:var(--papel); padding:9px 16px; border-radius:999px; font-weight:700; font-size:.85rem;}
 
-  /* boton llamar mozo */
-  .mozo-fab{position:fixed; right:16px; bottom:86px; background:var(--wine); color:var(--paper);
+  .mozo-fab{position:fixed; right:16px; bottom:86px; background:var(--alerta); color:var(--papel);
     border:none; width:56px; height:56px; border-radius:50%; font-size:1.4rem; box-shadow:0 8px 22px rgba(0,0,0,.4);
     cursor:pointer; z-index:41; display:flex; align-items:center; justify-content:center;}
   .cart-bar.show ~ .mozo-fab{bottom:96px;}
 
-  /* overlay/drawer */
   .overlay{position:fixed; inset:0; background:rgba(10,14,11,.6); display:none; align-items:flex-end; z-index:50;}
   .overlay.show{display:flex;}
-  .sheet{background:var(--paper); color:var(--ink); width:100%; max-height:85vh; border-radius:20px 20px 0 0;
+  .sheet{background:var(--papel); color:var(--tinta); width:100%; max-height:85vh; border-radius:20px 20px 0 0;
     padding:20px; overflow-y:auto; animation:up .25s ease;}
   @keyframes up{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
-  .sheet h3{font-family:'Caveat',cursive; font-size:1.6rem; color:var(--wine-dark); margin:0 0 12px;}
-  .close-x{position:absolute; top:16px; right:20px; background:none; border:none; font-size:1.4rem; color:var(--ink-dim); cursor:pointer;}
-  .cart-line{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--paper-2);}
-  .cart-line .nm{font-weight:600; font-size:.92rem;}
-  .cart-line .sub{font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--ink-dim);}
+  .sheet h3{font-family:'Playball',cursive; font-size:1.9rem; font-weight:400; color:var(--alerta-o); margin:0 0 12px;}
+  .close-x{position:absolute; top:16px; right:20px; background:none; border:none; font-size:1.4rem; color:var(--tinta-dim); cursor:pointer;}
+  .cart-line{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--papel2);}
+  .cart-line .nm{font-weight:600; font-size:.9rem;}
+  .cart-line .sub{font-size:.85rem; color:var(--tinta-dim);}
   .cart-total-row{display:flex; justify-content:space-between; padding:16px 0 6px; font-weight:700; font-size:1.1rem;}
-  .send-btn{width:100%; background:var(--wine); color:var(--paper); border:none; padding:15px; border-radius:999px;
+  .send-btn{width:100%; background:var(--alerta); color:var(--papel); border:none; padding:15px; border-radius:999px;
     font-weight:700; font-size:1rem; margin-top:10px; cursor:pointer;}
   .send-btn:disabled{opacity:.4;}
-  .empty-note{color:var(--ink-dim); text-align:center; padding:30px 0; font-size:.9rem;}
+  .empty-note{color:var(--tinta-dim); text-align:center; padding:30px 0; font-size:.9rem;}
 
-  .motivo-btn{display:block; width:100%; text-align:left; background:var(--paper-2); border:none; padding:14px 16px;
-    border-radius:12px; margin-bottom:8px; font-weight:600; color:var(--ink); cursor:pointer; font-size:.92rem;}
+  .motivo-btn{display:block; width:100%; text-align:left; background:var(--papel2); border:none; padding:14px 16px;
+    border-radius:12px; margin-bottom:8px; font-weight:600; color:var(--tinta); cursor:pointer; font-size:.9rem;}
   .motivo-btn:active{background:#E3D8B8;}
 
-  /* pantalla de estado de pedido */
   .status-screen{max-width:520px; margin:30px auto; padding:0 16px;}
-  .ticket{background:var(--paper); color:var(--ink); border-radius:16px; padding:22px; box-shadow:0 10px 26px rgba(0,0,0,.3);}
-  .ticket h2{font-family:'Caveat',cursive; color:var(--wine-dark); font-size:1.8rem; margin:0 0 4px;}
+  .ticket{background:var(--papel); color:var(--tinta); border-radius:16px; padding:22px; box-shadow:0 10px 26px rgba(0,0,0,.3);}
+  .ticket h2{font-family:'Playball',cursive; font-weight:400; color:var(--alerta-o); font-size:1.9rem; margin:0 0 4px;}
   .steps{display:flex; align-items:center; margin:20px 0;}
   .step{flex:1; text-align:center; position:relative;}
-  .dot{width:26px; height:26px; border-radius:50%; background:var(--paper-2); border:2px solid var(--ink-dim);
-    margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:700; color:var(--ink-dim);}
-  .step.done .dot{background:var(--sage); border-color:var(--sage); color:#fff;}
-  .step.active .dot{background:var(--amber); border-color:var(--amber-dark); color:var(--ink);}
-  .step .lbl{font-size:.68rem; font-weight:600; color:var(--ink-dim);}
-  .step-line{position:absolute; top:13px; left:-50%; width:100%; height:2px; background:var(--paper-2); z-index:-1;}
-  .step.done .step-line{background:var(--sage);}
+  .dot{width:26px; height:26px; border-radius:50%; background:var(--papel2); border:2px solid var(--tinta-dim);
+    margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:700; color:var(--tinta-dim);}
+  .step.done .dot{background:var(--exito); border-color:var(--exito); color:#fff;}
+  .step.active .dot{background:var(--acento); border-color:var(--acento-o); color:var(--tinta);}
+  .step .lbl{font-size:.68rem; font-weight:600; color:var(--tinta-dim);}
+  .step-line{position:absolute; top:13px; left:-50%; width:100%; height:2px; background:var(--papel2); z-index:-1;}
+  .step.done .step-line{background:var(--exito);}
   .step:first-child .step-line{display:none;}
-  .toast{position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--sage); color:#fff;
+  .toast{position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--exito); color:#fff;
     padding:10px 18px; border-radius:999px; font-weight:600; font-size:.85rem; z-index:99; box-shadow:0 6px 16px rgba(0,0,0,.3);
     opacity:0; transition:.25s;}
   .toast.show{opacity:1;}
-  .back-link{display:block; text-align:center; margin-top:16px; color:var(--chalk-text-dim); font-size:.85rem; text-decoration:none;}
+  .back-link{display:block; text-align:center; margin-top:16px; color:var(--texto-dim); font-size:.85rem; text-decoration:none;}
 </style>
 </head>
 <body>
 
 <header class="top">
-  <div class="brand"><span>Pide</span>Ya</div>
+  <div class="steam-wrap"><span class="steam"></span><span class="steam"></span><span class="steam"></span></div>
+  <div class="cup">☕</div>
+  <div class="brand" id="brandWordmark"></div>
   <div><span class="mesa-badge" id="mesaBadge">MESA —</span></div>
   <div><button class="mesa-edit" id="mesaEditBtn">cambiar mesa</button></div>
 </header>
@@ -165,7 +168,7 @@
     <h3>¿En qué te ayudamos?</h3>
     <button class="motivo-btn" data-m="Consulta sobre el menú">💬 Consulta sobre el menú</button>
     <button class="motivo-btn" data-m="Consulta celíaco / sin TACC">🌾 Consulta celíaco / sin TACC</button>
-    <button class="motivo-btn" data-m="Consulta sin lactosa">🥛 Consulta sin lactosa</button>
+    <button class="motivo-btn" data-m="Consulta vegana">🌱 Consulta vegana</button>
     <button class="motivo-btn" data-m="Pedir la cuenta">🧾 Pedir la cuenta</button>
     <button class="motivo-btn" data-m="Otra consulta">✋ Otra consulta</button>
   </div>
@@ -174,83 +177,544 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const MENU = [
-  {id:'e1',cat:'Entradas',nombre:'Provoleta',desc:'Con orégano y aceite de oliva',precio:4500,tacc:true,lac:false},
-  {id:'e2',cat:'Entradas',nombre:'Empanadas de carne (x3)',desc:'Cortadas a cuchillo, horno de barro',precio:3800,tacc:false,lac:true},
-  {id:'e3',cat:'Entradas',nombre:'Tabla de fiambres',desc:'Jamón crudo, salame, quesos y aceitunas',precio:6200,tacc:true,lac:false},
-  {id:'e4',cat:'Entradas',nombre:'Rabas',desc:'Con limón y mayonesa casera',precio:5200,tacc:false,lac:true},
-  {id:'p1',cat:'Principales',nombre:'Bife de chorizo',desc:'Con papas rústicas',precio:9800,tacc:true,lac:true},
-  {id:'p2',cat:'Principales',nombre:'Milanesa napolitana',desc:'Con jamón, muzzarella y papas fritas',precio:8200,tacc:false,lac:false},
-  {id:'p3',cat:'Principales',nombre:'Ensalada Caesar',desc:'Pollo grillado, parmesano y crutones',precio:6500,tacc:false,lac:false},
-  {id:'p4',cat:'Principales',nombre:'Sorrentinos caseros',desc:'Jamón y muzzarella, salsa a elección',precio:7400,tacc:false,lac:false},
-  {id:'b1',cat:'Bebidas',nombre:'Copa de Malbec',desc:'Selección de la casa',precio:3200,tacc:true,lac:true},
-  {id:'b2',cat:'Bebidas',nombre:'Cerveza artesanal IPA',desc:'Pinta 500ml',precio:3500,tacc:false,lac:true},
-  {id:'b3',cat:'Bebidas',nombre:'Agua mineral',desc:'Con o sin gas',precio:1500,tacc:true,lac:true},
-  {id:'b4',cat:'Bebidas',nombre:'Limonada casera',desc:'Con menta y jengibre',precio:2200,tacc:true,lac:true},
-  {id:'d1',cat:'Postres',nombre:'Flan casero',desc:'Con dulce de leche y crema',precio:3000,tacc:true,lac:false},
-  {id:'d2',cat:'Postres',nombre:'Brownie con helado',desc:'Chocolate 70% y helado de vainilla',precio:3800,tacc:false,lac:false},
-  {id:'d3',cat:'Postres',nombre:'Fruta de estación',desc:'Selección del día',precio:2500,tacc:true,lac:true},
-];
-const CATS = ['Entradas','Principales','Bebidas','Postres'];
+/* ======================================================================
+   ▼▼▼  CONFIGURACIÓN — La Delicia del Boulevard  ▼▼▼
+   ====================================================================== */
+const CONFIG = {
+  tituloPagina: "La Delicia del Boulevard · Carta",
+  marca: { texto: "La Delicia", texto2: "del Boulevard" },
+  storageKey: "delicia",
+  colores: {
+    fondo:"#F5EEDD", fondo2:"#EAE0C4", lineas:"#D8C9A3",
+    texto:"#2E2013", textoDim:"#6B5D45",
+    papel:"#FFFFFF", papel2:"#F0E9D6", tinta:"#2E2013", tintaDim:"#7A6B4E",
+    acento:"#A9793C", acentoOscuro:"#8A5F2A",
+    alerta:"#A85434", alertaOscura:"#7E3D26",
+    exito:"#6B8F71", banda2:"#8FA396"
+  },
+
+  categorias: ["Desayunos","Para acompañar","Brunch y Tentaciones","Copas y helados","Almuerzo y Cena","Pizzas","Sandwiches","Para picar","Para beber","Sabores helados"],
+
+  menu: [
+    { cat:"Desayunos", secciones:[
+      { titulo:"Promos", items:[
+        {n:"01. Bebida caliente + 2 facturas", d:"Común, especial o raspadita", p:7600},
+        {n:"02. Bebida caliente + tostadas", d:"Blancas, integrales, de harina de arroz o de pan de campo, con queso crema o manteca y dulce (opción light)", p:7900},
+        {n:"03. Desayuno Americano — con jamón", d:"Bebida caliente, tostadas, dulce, queso crema y/o manteca, huevos revueltos", p:12700},
+        {n:"03. Desayuno Americano — con panceta", d:"Bebida caliente, tostadas, dulce, queso crema y/o manteca, huevos revueltos", p:13000},
+        {n:"04. Bebida caliente + 2 medialunas", d:"Con jamón y queso", p:8700},
+        {n:"05. Bebida caliente + tostón de palta", d:"Huevo y cherry (simple)", p:9800},
+        {n:"06. Jugo o bebida caliente + tostado", d:"Tostado de jamón y queso", p:15000},
+        {n:"07. Bebida caliente + porción de torta o tarta", p:13500},
+        {n:"08. Yogur completo", d:"Yogur, semillas de chía, granola, frutos rojos y banana", p:11800},
+        {n:"09. Bebida caliente + 1 raspadita", d:"Con jamón y queso", p:7800},
+      ]},
+      { titulo:"Cafetería", nota:"Opcional descafeinado", items:[
+        {n:"Café chico", d:"Café, cortado, lágrima, goteado o Ristretto", p:3500},
+        {n:"Café mediano", d:"Café, cortado, lágrima o goteado", p:3900},
+        {n:"Café grande", d:"Café, cortado, lágrima o goteado", p:4400},
+      ]},
+      { titulo:"Cafés especiales", nota:"Te regalamos 2 masas finas", items:[
+        {n:"Capuchino", d:"Leche, canela, cacao, crema y chocolate", p:7500},
+        {n:"Caramelo Macchiato", d:"Leche, café, chocolate y salsa de caramelo", p:7400},
+        {n:"Bombón", d:"Leche condensada, trozos de chocolate y crema", p:7900},
+        {n:"Argentino", d:"Chocolate blanco, licor dulce de leche, crema", p:7700},
+        {n:"Baileys", d:"Licor Baileys, crema y coco rallado", p:8800},
+        {n:"Jamaiquino", d:"Licor Tía María, crema chantilly, cacao y chocolate", p:8100},
+      ]},
+      { titulo:"Chocolate con leche", items:[
+        {n:"Submarino", p:7200},
+        {n:"Jarra de chocolate (4 personas)", p:9500},
+        {n:"Jarrita de chocolate caliente / chocolatada fría", p:6200},
+        {n:"Jarrita de leche", p:650},
+        {n:"Adicional leche de almendras", p:1500},
+        {n:"Adicional leche de almendras (café chico/mediano)", p:800},
+      ]},
+      { titulo:"Té", items:[ {n:"Té a elección", p:2800} ]},
+      { titulo:"Té en hebras", items:[
+        {n:"Té en hebras orgánico", d:"Chocomint · Negro Chai · Frutos del sur · Melocotón · Verde cítrico · Verde flor", p:4000},
+      ]},
+    ]},
+
+    { cat:"Para acompañar", secciones:[
+      { titulo:"Tortas y tartas", nota:"por porción", items:[
+        {n:"Torta a elección", d:"Selva Negra, Matilda, Chocotorta, Tiramisú, Cheesecake frutos rojos, Cheesecake pistacho, Óreo, Marquise, Tradicional, Carrot Cake, Chajá, Lemon Pie", p:11500},
+        {n:"Tarta a elección", d:"Pistacho y frutos rojos, Manzanas, Coco, Mousse de chocolate, Frutillas, Frutal, Tucumana", p:11000},
+      ]},
+      { titulo:"Opciones dulces", items:[
+        {n:"Factura común, especial o raspadita", p:2100},
+        {n:"Cookie de vainilla", d:"Con chips de chocolate o nutella", p:2500},
+        {n:"Scons de queso", d:"Con dip de mermelada y queso", p:4600},
+        {n:"Muffin de harina de arroz", d:"Arándanos / zanahoria / limón y arándanos", p:1800},
+        {n:"Muffin Keto", d:"Frutos rojos / crema de maní / chocolate", p:2600},
+        {n:"Croissant", p:2500},
+        {n:"Tres masas finas o tres masas secas", p:2200},
+        {n:"Tostadas Francesas", d:"Con queso crema y miel o dulce", p:9500},
+        {n:"Tres pancakes de harina de arroz", d:"Con huevo, frutas frescas y frutos rojos", p:8900},
+      ]},
+      { titulo:"Opciones saladas", items:[
+        {n:"Medialuna con jamón y queso", p:3600},
+        {n:"Raspadita con jamón y queso", p:4200},
+        {n:"Croissant con jamón y queso", p:5000},
+        {n:"Omelette", d:"Con jamón y/o queso", p:5200},
+        {n:"Tostón de palta doble", d:"Huevo y cherry (opción integral)", p:9000},
+        {n:"Tostón de palta simple", d:"Huevo y cherry (opción integral)", p:4500},
+        {n:"Huevos Benedictinos — palta y cherry", d:"En pan integral", p:8800},
+        {n:"Huevos Benedictinos — tomate y albahaca", d:"Queso gratinado", p:8600},
+        {n:"Huevos Benedictinos — jamón crudo y olivas", p:9700},
+        {n:"Huevo revuelto con jamón", p:5200},
+        {n:"Huevo revuelto con panceta", p:5600},
+        {n:"Scons de queso", d:"Con tomates secos y jamón crudo", p:4600},
+      ]},
+      { titulo:"Acompañamientos y adicionales", items:[
+        {n:"Yogur origen vacuno", d:"Con o sin azúcar", p:4400},
+        {n:"Porción de granola", p:900},
+        {n:"Porción de frutos rojos", p:2000},
+        {n:"Porción de frutillas frescas", p:3000},
+        {n:"Porción de frutas frescas", p:2000},
+        {n:"Porción de frutos secos", p:2000},
+        {n:"Tres tostadas", d:"Blancas, integrales o de arroz", p:5200},
+        {n:"Pan Keto (unidad)", p:2000},
+        {n:"Rollo de jamón o queso", p:2700},
+        {n:"Media palta fresca", p:3600},
+      ]},
+      { titulo:"Para degustar", items:[
+        {n:"Ocho masas finas a elección", d:"Para dos", p:8000},
+        {n:"Picoteo Dulce", d:"Dos sabores de helado, una porción de torta o tarta y seis masas finas — para dos", p:23500},
+        {n:"Plato Dulce/Salado", d:"Masas finas y secas, medialuna con jamón y queso, sandwiches — para una persona", p:16000},
+        {n:"Torre Boulevard", d:"Torta a elección, variedad de masas finas y alfajores, bombones de chocolate, sandwiches y bocaditos", p:23000},
+      ]},
+    ]},
+
+    { cat:"Brunch y Tentaciones", secciones:[
+      { titulo:"Brunches", items:[
+        {n:"Brunch Saludable", d:"Bebida caliente, jugo grande o limonada, yogur completo, palta, jamón, queso, huevo revuelto y tostadas integrales", p:28500},
+        {n:"Brunch Mixto (para dos)", d:"Dos bebidas o jugos grandes, plato de quesos y fiambres, papas, huevos revueltos, panera, torta o dos bochas de helado", p:32500},
+      ]},
+      { titulo:"Croissants rellenos", items:[
+        {n:"01. Panceta, huevo revuelto y queso cheddar", p:12300},
+        {n:"02. Rúcula, palta y queso pategrás", p:12600},
+        {n:"03. Huevo revuelto, pategrás y tomates cherries", p:12200},
+      ]},
+      { titulo:"Crepes", items:[
+        {n:"De manzana", d:"Manzanas caramelizadas, nueces, pasas al rhum, helado de chantilly y vainilla", p:13000},
+        {n:"A la banana", d:"Bananas flambeadas, dulce de leche con helado de dulce de leche y salsa de dulce de leche", p:13000},
+        {n:"De frutillas", d:"Frutillas flambeadas, crema chantilly, salsa de frutilla con helado cheesecake y de frutilla", p:13000},
+        {n:"De dulce de leche", d:"Dulce de leche, dos bochas de helado a elección y copo de crema chantilly", p:13000},
+      ]},
+      { titulo:"Merengue", items:[
+        {n:"Merengue con ensalada de fruta", d:"Crema chantilly, salsa de frutilla y dos sabores de helado a elección", p:8500},
+      ]},
+      { titulo:"Con frutas", items:[
+        {n:"Ensalada de frutas", p:8500},
+        {n:"Ensalada de frutas + bocha de helado o crema chantilly", p:10000},
+        {n:"Ensalada de frutas + bocha de helado y crema chantilly", p:11000},
+        {n:"Frutillas frescas (sólo en estación)", p:13000},
+        {n:"Frutillas frescas + bocha de helado o crema chantilly", p:14000},
+        {n:"Frutillas frescas + bocha de helado y crema chantilly", p:15000},
+      ]},
+      { titulo:"Tortas heladas", nota:"con pionono, por porción", items:[
+        {n:"Torta helada a elección", d:"Frutal / Selva Negra / Merengado / Tiramisú / Chajá", p:4500},
+      ]},
+    ]},
+
+    { cat:"Copas y helados", secciones:[
+      { titulo:"Copas con helado", items:[
+        {n:"Alfajor", d:"Alfajor Entre Dos, cáscaras de naranja confitadas, helado de chocolate intenso, naranja y quinotos al whisky", p:13000},
+        {n:"Banana Split", d:"Banana fresca con helado de dulce de leche, chocolate y nutella, chantilly y caramelo", p:13000},
+        {n:"Boulevard", d:"Galletas de nuez con helado de pistacho, frambuesa y chocolate Dubái, salsa de frutos rojos", p:13000},
+        {n:"Brownie", d:"Brownie de chocolate con tres sabores de helado, baño de chocolate, chantilly y virutas", p:13000},
+        {n:"Copa tres gustos", d:"Tres sabores de helado a elección, crema chantilly, galletitas y salsa", p:13000},
+        {n:"Chajá", d:"Duraznos frescos, merengues y bizcochuelo de vainilla, helado de dulce de leche y durazno", p:13000},
+        {n:"Don Pedro", d:"Helado de crema rusa con nueces, whisky y crema chantilly", p:13000},
+        {n:"Jamaica", d:"Ensalada de frutas con helado de chocolate, frutilla y americana, chantilly y salsa", p:13000},
+        {n:"Manjar Mendocino", d:"Bizcochuelo de chocolate con frutos regionales al rhum, helado de crema de nuez y chocolate amargo", p:13000},
+        {n:"Pera al Rosé", d:"Peras en almíbar al Rosé, helado de sambayón y americana, crumble de frutos secos", p:13000},
+        {n:"Tiramisú", d:"Helado de frapuccino y mascarpone, vainillas en almíbar de café", p:13000},
+        {n:"Tucumana", d:"Crumble de frutos secos con helado de dulce de leche, crema de nuez y americana, higos y cerezas", p:13000},
+      ]},
+      { titulo:"Armalo a tu gusto", nota:"todos incluyen crema chantilly", items:[
+        {n:"Copa dos gustos", d:"Dos sabores de helado y dos ingredientes a elección", p:8600},
+        {n:"Capelina", d:"Tres sabores de helado y tres ingredientes, en tulipa de cucurucho", p:12000},
+        {n:"Picoteo Helado (para dos)", d:"Seis bochas de helado y cuatro ingredientes a elección", p:14500},
+        {n:"Waffle de vainilla", d:"Dos sabores de helado y tres ingredientes a elección", p:13500},
+        {n:"Cookie de vainilla + 2 bochas", d:"Chips de chocolate", p:9700},
+        {n:"Cookie de Nutella + 2 bochas", p:9700},
+      ]},
+      { titulo:"Ingredientes a elección", info:true, items:["Frutos rojos","Nueces","Almendras","Granola","Merengues","Ensalada de fruta","Dulce de leche","Chips de chocolate","Baño de chocolate","Frutillas frescas","Rocklets","Cerezas"]},
+    ]},
+
+    { cat:"Almuerzo y Cena", secciones:[
+      { titulo:"Al plato", nota:"Incluyen guarnición: papas fritas, ensalada mixta o vegetales asados", items:[
+        {n:"Ojo de bife", p:33000},
+        {n:"Carne a la masa", p:36000},
+        {n:"Milanesa", p:25500},
+        {n:"Milanesa napolitana", p:27000},
+        {n:"Milanesa a caballo", p:25500},
+        {n:"Matambre a la pizza", p:31000},
+        {n:"Matambre con crema de verdeo y champiñones", p:31500},
+      ]},
+      { titulo:"Al plato", nota:"No incluyen guarnición", items:[
+        {n:"Lasagna vegetariana de estación", p:18500},
+        {n:"Wok de vegetales con arroz Yamaní", p:17900},
+        {n:"Saludable", d:"Bife de pollo o filet, huevo a la plancha, mix de hojas verdes, láminas de queso, brócoli, maíz, batatas y calabazas asadas", p:17000},
+        {n:"Bife de pollo", p:9200},
+        {n:"Bife de filet", p:12000},
+      ]},
+      { titulo:"Ensaladas", items:[
+        {n:"Caesar Salad", d:"Lechuga capuchina, blanco de ave, aderezo Caesar, queso parmesano y croûtons", p:14500},
+        {n:"De La Finca", d:"Mix de hojas verdes, jamón crudo, cherrys, aceitunas, choclo, pepino y hebras de queso", p:15800},
+        {n:"Rúcula y remolacha", d:"Lentejas, láminas de remolacha, nueces y queso azul", p:12600},
+        {n:"Vegetariana", d:"Humus de garbanzo, brócoli, zucchinis y zanahorias asadas, maíz y garbanzos crujientes", p:11800},
+        {n:"Griega", d:"Tomates secos, tomate, aceitunas, aros de cebolla, queso de almendras, pepino y albahaca", p:12900},
+        {n:"Agregar huevo poché", p:1800},
+      ]},
+      { titulo:"Armalá a tu gusto", nota:"ingredientes para tu ensalada", items:[
+        {n:"Lechuga", p:2700}, {n:"Tomate", p:2900}, {n:"Zanahoria", p:2700}, {n:"Cebolla", p:2500},
+        {n:"Rúcula", p:3000}, {n:"Manzana", p:3000}, {n:"Queso", p:8300}, {n:"Jamón cocido", p:8000},
+        {n:"Jamón crudo", p:7500}, {n:"Panceta salada", p:8700}, {n:"Salames varios", p:9400},
+        {n:"Pollo", p:12800}, {n:"Huevo duro", p:4500}, {n:"Palta fresca", p:3600},
+      ]},
+    ]},
+
+    { cat:"Pizzas", secciones:[
+      { titulo:"Nuestras pizzas", items:[
+        {n:"01. Mozzarella", d:"Salsa de tomate y mozzarella", p:31000},
+        {n:"02. Especial", d:"Jamón cocido y morrón asados (opcional agregar huevo)", p:32500},
+        {n:"03. Caprese", d:"Tomates asados, cherrys confitados, parmesano y pesto de albahaca", p:33200},
+        {n:"04. Hawaiana", d:"Jamón cocido, ananá asadas (opcional azúcar negra)", p:32900},
+        {n:"05. Boulevard", d:"Peras tiernas, queso azul y cebolla de verdeo", p:32200},
+        {n:"06. Fungi", d:"Champiñones y mozzarella", p:31400},
+        {n:"07. Mediterránea", d:"Jamón crudo, rúcula y cherrys", p:34700},
+        {n:"08. Vegetariana", d:"Salsa de espinaca, brócoli, mozzarella, cebollas y morrones asados. En masa integral", p:32900},
+        {n:"09. Americana", d:"Panceta, cebolla y morrón asado", p:33600},
+        {n:"10. Fugazza", d:"Cebollas asadas y verdeo", p:31800},
+        {n:"11. Cuatro quesos", d:"Mozzarella, queso azul, parmesano y sardo", p:34000},
+        {n:"12. Keto (individual)", d:"Mozzarella y jamón", p:22500},
+        {n:"Agregar huevo (opcional)", p:4500},
+      ]},
+    ]},
+
+    { cat:"Sandwiches", secciones:[
+      { titulo:"En panini", items:[
+        {n:"01. Lomito (ternera o pollo)", d:"Jamón, queso, huevo, tomate y lechuga", ps:25800, pe:37500},
+        {n:"02. Boulevard", d:"Lomo, panceta, morrón, huevo, jamón, queso, lechuga y tomate", ps:26400, pe:38800},
+        {n:"03. Americano", d:"Bondiola braseada, salsa cheddar, coleslaw y barbacoa", ps:21800, pe:31300},
+        {n:"04. Ave Palta", d:"Suprema de pollo, crema de palta, tomates, cebolla asada y pategrás", ps:22500, pe:35800},
+        {n:"Adicional pan Keto", nota:"solo para simples", p:3800},
+      ]},
+      { titulo:"Hamburguesas", items:[
+        {n:"Adicional pan hamburguesa Keto", p:3700},
+        {n:"01. Chesse", d:"160g de carne, provoleta, cheddar y cebollas crispy", p:19800},
+        {n:"02. Boulevard", d:"160g de carne, cheddar, panceta, morrones asados y huevo. Acompaña pickles", p:21000},
+        {n:"03. Mole Burguer", d:"160g de carne, pategrás, guacamole, tomates asados y aros de cebolla", p:20500},
+        {n:"04. La Distinta", d:"160g de carne, provoleta, champignon y rúcula", p:20400},
+        {n:"05. Clásica", d:"160g de carne, queso tybo, lechuga y tomate", p:19200},
+        {n:"06. Veggie", d:"Lechuga, tomate, medallón veggie, queso de almendras y zanahorias crunch (pan integral)", p:17200},
+      ]},
+      { titulo:"Bagels", items:[
+        {n:"01. Blanco de ave", d:"Queso crema, rúcula, crema de palta y tomate", p:10500},
+        {n:"02. Jamón, queso y huevo revuelto", p:10500},
+        {n:"03. Lechuga y tomate", d:"Morrones asados, huevos a la plancha, queso pategrás y crema de palta (pan integral)", p:10500},
+      ]},
+      { titulo:"En pan de campo", items:[
+        {n:"01. Jamón crudo, oliva, rúcula y tomates secos", p:17600},
+        {n:"02. Jamón crudo, queso crema, cibullete y pategrás", d:"Con láminas de aceitunas", p:18200},
+      ]},
+      { titulo:"Club sandwich", nota:"en pan de molde", items:[
+        {n:"01. Blanco de ave", d:"Tomate, lechuga, panceta, huevo y mayonesa", p:12500},
+        {n:"02. Peceto", d:"Queso pategrás, rúcula, tomates secos, cheddar, mostaza con miel y mayonesa", p:14200},
+      ]},
+      { titulo:"Saludables", items:[
+        {n:"Veggie 01", d:"Tomates, zucchinis, champiñones asados, pategrás, rúcula y crema. Panini integral", p:19500},
+        {n:"Veggie 02", d:"Zanahorias, huevos, zucchinis y queso crema (pan de miga)", p:18800},
+        {n:"Keto 01", d:"Peceto, huevo, lechuga y tomate (pan keto)", p:18500},
+        {n:"Keto 02", d:"Jamón cocido, queso, huevo, palta y rúcula (pan keto)", p:17200},
+        {n:"Keto 03", d:"Atún, huevo duro, zanahoria, palta y queso crema (pan keto)", p:16700},
+      ]},
+      { titulo:"Triples", nota:"fríos o tostados, pan blanco o integral", items:[
+        {n:"01. Jamón cocido y queso", p:13000},
+        {n:"02. Jamón cocido, queso y verdura", p:13500},
+        {n:"03. Queso", p:13000},
+        {n:"04. Queso y verdura", p:13500},
+        {n:"05. Jamón crudo y queso", p:13500},
+      ]},
+    ]},
+
+    { cat:"Para picar", secciones:[
+      { titulo:"A la sartén", items:[
+        {n:"Papas fritas", p:13500},
+        {n:"Papas fritas a la provenzal", p:13700},
+        {n:"Papas con cheddar", p:14200},
+        {n:"Papas Boulevard", d:"Panceta, cebolla salteada y dos huevos fritos", p:15600},
+        {n:"Fingers de pollo con salsas", p:15200},
+        {n:"Tortilla de papa", p:13100},
+      ]},
+      { titulo:"Bruschettas", nota:"por 2 unidades", items:[
+        {n:"Bruschettas a elección", d:"01. Jamón crudo, tomates confitados y queso gratinado — 02. Sofrito de morrón y cebollas sobre queso sardo gratinado — 03. Tomates hidratados, queso azul, nueces y miel — 04. Champignon al verdeo gratinado", p:13800},
+      ]},
+      { titulo:"Tartas", items:[
+        {n:"Jamón y queso", p:18500},
+        {n:"Humita y queso", p:16300},
+        {n:"Espinaca, calabaza y queso", p:15000},
+        {n:"Pollo y queso", p:17400},
+      ]},
+      { titulo:"Empanadas", items:[
+        {n:"Criolla", p:5400}, {n:"Jamón y queso", p:5500}, {n:"Caprese", p:5500},
+        {n:"Atún y queso", p:5200}, {n:"Espinaca y queso", p:4800}, {n:"Verduras surtidas (sin queso)", p:4700},
+      ]},
+      { titulo:"Para los peques", items:[
+        {n:"Hamburguesa con cheddar y papas", p:18000},
+        {n:"Fingers de pollo con papas", p:13000},
+        {n:"Milanesa de ternera con papas sonrisas", p:12500},
+      ]},
+      { titulo:"Picadas", items:[
+        {n:"01. Para dos: cerveza, gaseosa o jarra de limonada + sandwiches de miga y papas", p:29500},
+        {n:"02. Picada Boulevard (comen dos, pican cuatro)", d:"Variedad de quesos y fiambres, papas fritas, sandwiches de miga, pizzetas, delicatessen y salsa", p:53000},
+        {n:"03. La Irresistible (comen dos, pican cuatro)", d:"Tortilla de papa, fingers de pollo con salsas, roll de panceta y salchi parrillera, scon de jamón crudo y rúcula, pinchos y fiambres", p:49500},
+        {n:"04. Picada Veggie (comen dos, pican cuatro)", d:"Variedades de quesos, brócolis gratinados, bites de espinaca, aros de cebolla, delicatessen y salsa", p:51000},
+        {n:"05. La Picada (comen dos, pican cuatro)", d:"Variedad de fiambres", p:54000},
+      ]},
+    ]},
+
+    { cat:"Para beber", secciones:[
+      { titulo:"Jugos y limonadas", items:[
+        {n:"Jugo de naranja Citric mediano", p:3600},
+        {n:"Jugo de naranja Citric grande", p:4000},
+        {n:"Agua de limón, pepino y menta (jarra)", p:7200},
+        {n:"Agua de manzana, frutilla y canela (jarra)", p:7200},
+        {n:"Agua de jengibre, limón y naranja (jarra)", p:7200},
+        {n:"Limonada sin azúcar (jarra)", p:7200},
+        {n:"Limonada sin azúcar (vaso)", p:3300},
+        {n:"Licuado", d:"Frutilla, banana, durazno, ananá o frutal variado (al agua o a la leche)", p:6600},
+        {n:"Malteada de leche y helado", d:"Con crema y salsa", p:6600},
+        {n:"Malteada de frutillas o bananas", d:"Con helado, crema y salsa", p:6600},
+        {n:"Adicional leche de almendras", p:1500},
+      ]},
+      { titulo:"Frappés", nota:"elegí con leche o con café", items:[
+        {n:"La Delicia", d:"Helado de dulce de leche granizado, crema y salsa de chocolate", p:6500},
+        {n:"Azteca", d:"Helado de chocolate Bariloche, crema y salsa de chocolate", p:6500},
+        {n:"Cremoso de Vainilla", d:"Helado de vainilla, crema y salsa de caramelo", p:6500},
+        {n:"Tiramisú", d:"Helado de tiramisú, crema chantilly, cacao y salsa de caramelo", p:6500},
+        {n:"Frappé cremoso", d:"A gusto", p:6500},
+      ]},
+      { titulo:"Frappés frutales", items:[
+        {n:"Tropical", d:"Jugo de naranja, helado de banana y frutilla al agua", p:5500},
+        {n:"Verano", d:"Jugo de naranja, helado de frambuesa y maracuyá", p:5500},
+        {n:"Lemonetto", d:"Jugo de naranja, helado de naranja y limón", p:5500},
+        {n:"Fresco", d:"Jugo de naranja y helado de ananá", p:5500},
+      ]},
+      { titulo:"Sin alcohol", items:[
+        {n:"Gaseosas y aguas saborizadas (individual)", p:4000},
+        {n:"Agua con o sin gas (individual)", p:3500},
+        {n:"Gaseosa 1250ml", p:5800},
+        {n:"Gaseosa light (individual)", p:4000},
+      ]},
+      { titulo:"Cervezas", items:[
+        {n:"Stella Artois rubia (1L)", p:8700},
+        {n:"Stella Artois sin alcohol (330ml)", p:5500},
+        {n:"Andes Origen rubia, negra o IPA (1L)", p:7600},
+        {n:"Quilmes Stout (1L)", p:6900},
+        {n:"Quilmes (1L) o Andes clásica (970ml)", p:6900},
+        {n:"Quilmes (individual)", p:5300},
+        {n:"Quilmes Stout (individual)", p:5300},
+        {n:"Corona (710ml)", p:8300},
+        {n:"Corona (330ml)", p:6500},
+        {n:"Patagonia Amber o Bohemian (740ml)", p:8400},
+        {n:"Michelob sin TACC (473ml)", p:5400},
+      ]},
+      { titulo:"Vinos blancos y rosados", items:[
+        {n:"Copa de vino blanco", p:6600},
+        {n:"Conejo Verde blanc de blancs (750ml)", p:9500},
+        {n:"La Abeja Torrontés dulce tardío -reserva- (750ml)", p:16200},
+        {n:"La Abeja Tempranillo Rose (750ml)", p:13200},
+        {n:"Latitud 33 Chardonnay (750ml)", p:10700},
+        {n:"Latitud 33 Malbec Rosé (750ml)", p:10900},
+        {n:"Conejo Verde Chenin (aluminio 500ml)", p:9600},
+        {n:"Conejo Verde Rosé (aluminio 500ml)", p:9600},
+      ]},
+      { titulo:"Vinos tintos", items:[
+        {n:"Copa de vino tinto", p:6600},
+        {n:"Argana Malbec (750ml)", p:12700},
+        {n:"Argana Cabernet (750ml)", p:12300},
+        {n:"Bournett Malbec I.G. (750ml)", p:7600},
+        {n:"Bournett Merlot I.G. (750ml)", p:7600},
+        {n:"Conejo Verde Malbec (750ml)", p:9500},
+        {n:"Killka Malbec (750ml)", p:13700},
+        {n:"Portillo Malbec (750ml)", p:9500},
+        {n:"Sexy Fish Malbec (750ml)", p:8200},
+        {n:"Sexy Fish Cabernet Franc (750ml)", p:8300},
+      ]},
+      { titulo:"Espumantes", items:[ {n:"Murville Extra Brut (750ml)", p:8500} ]},
+      { titulo:"Cócteles", items:[
+        {n:"Cynar Julep", d:"Cynar, azúcar negra, jugo de pomelo, menta", p:7000},
+        {n:"Dolce Vita", d:"Campari, Gancia, almíbar de té rojo, jugo de pomelo, soda", p:7200},
+        {n:"Gancia batido", d:"Gancia, jugo de limón, almíbar", p:6700},
+        {n:"Gin Tónic", d:"Pomelo y romero / albahaca y pepino / limón y pimienta", p:9300},
+        {n:"Penicillin", d:"Whisky, almíbar de miel y jengibre, jugo de limón (ahumado)", p:8400},
+        {n:"Gaucho", d:"Gin, almíbar de yerba mate, jugo de limón y pomelo, bitter de yerba mate", p:8300},
+        {n:"Amore Milano", d:"Whisky, Campari, jugo de limón y pomelo, almíbar", p:7800},
+        {n:"Basil Smash", d:"Gin, jugo de limón, almíbar, albahaca", p:8300},
+        {n:"Mojito", d:"Ron, almíbar, menta, limón, soda", p:7500},
+        {n:"Aperol Sprizt", d:"Aperol, champán, soda", p:7300},
+        {n:"Negroni", d:"Campari, gin, vermut", p:7200},
+        {n:"Fernet preparado", d:"Fernet Branca, Coca Cola", p:7200},
+        {n:"Campari preparado", d:"Campari, jugo de naranja", p:7800},
+        {n:"Gancia preparado", d:"Gancia, Sprite, rodaja de limón", p:6500},
+        {n:"Baileys Frozzen", d:"Helado de americana, Baileys, salsa de chocolate, crema", p:10700},
+        {n:"Gancia Boulevard", d:"Helado de limón, Gancia", p:7600},
+        {n:"1930", d:"Chocolate, ron dorado, licor de café", p:7700},
+        {n:"Tequila Sunrise", d:"Helado de naranja, tequila, granadina", p:7900},
+        {n:"Sunset (sin alcohol)", d:"Frutillas, jugo de limón y pomelo, almíbar de té rojo, soda", p:7000},
+        {n:"Tónico (sin alcohol)", d:"Jugo de pomelo, almíbar de miel y jengibre, tónica", p:7000},
+      ]},
+      { titulo:"Bebidas por medidas", items:[
+        {n:"Baileys", p:9800}, {n:"Fernet Branca", p:11700}, {n:"Whisky Ballantines", p:9600},
+        {n:"Whisky Jameson", p:9800}, {n:"Whisky Jack Daniels", p:11200}, {n:"Whisky Jack Daniels Honey", p:12200},
+        {n:"Whisky Johnnie Walker etiqueta roja", p:10200}, {n:"Whisky Blenders", p:7400},
+      ]},
+    ]},
+
+    { cat:"Sabores helados", secciones:[
+      { titulo:"Se pide junto con una copa, waffle o cucurucho — elegí tus sabores", info:true, items:["Consultá al mozo por sabores del día si no encontrás el tuyo en esta lista"] },
+      { titulo:"Cremas", info:true, items:["Almendrado","Americana","Chocolate","Chocolate amargo","Chocolate Bariloche","Chocolate blanco","Chocolate con almendras","Chocolate con uvas al rhum","Chocolate Delicia","Crema del cielo","Dulce de leche","Dulce de leche con nuez","Dulce de leche granizado","Súper dulce de leche","Granizado","Pistacho","Vainilla","Vainilla granizada"]},
+      { titulo:"Frutas", info:true, items:["Ananá al agua","Banana al agua","Banana Carioca","Cereza a la crema","Coco a la crema","Durazno a la crema","Frutilla al agua","Frutilla a la crema","Frambuesa a la crema","Limón al agua","Limón con menta y jengibre","Limón granizado","Limón Patagónico","Limoncer","Naranja al agua"]},
+      { titulo:"Especialidades", info:true, items:["Bombón Imperial","Bombón Rocher","Cereza al chantilly","Cheesecake","Chocolate blanco al pistacho","Chocolate Dubái","Chocolate Matilda","Chocotorta","Crema de nuez","Crema Irlandesa","Crema Rusa","Don Pedro","Dulce de leche con crunch de coco","Flan con dulce de leche","Frambuesa delicia","Frapuccino","Kindovo","Manjar Mendocino","Marroc","Mascarpone Crunch","Menta granizada","Nutella","Oreo","Quinotos al whisky","Rocklets","Sambayón","Tiramisú","Tramontana","Lemon Pie"]},
+      { titulo:"Aptos celíacos y diabéticos", info:true, items:["Americana","Banana","Chocolate","Dulce de leche","Durazno","Frutilla","Tiramisú","Vainilla"]},
+      { titulo:"Veganos", info:true, items:["Arándanos","Canela","Chocolate Intenso","Mandarina","Maracuyá","Vainilla Fresh","Vainilla Super"]},
+    ]},
+  ]
+};
+/* ======================================================================
+   ▲▲▲  FIN DE LA CONFIGURACIÓN  ▲▲▲
+   ====================================================================== */
+
+(function aplicarTema(){
+  const map = {
+    fondo:'--bg', fondo2:'--bg2', lineas:'--lineas',
+    texto:'--texto', textoDim:'--texto-dim',
+    papel:'--papel', papel2:'--papel2', tinta:'--tinta', tintaDim:'--tinta-dim',
+    acento:'--acento', acentoOscuro:'--acento-o', alerta:'--alerta', alertaOscura:'--alerta-o',
+    exito:'--exito', banda2:'--banda2'
+  };
+  const root = document.documentElement.style;
+  Object.entries(map).forEach(([k,cssVar])=> root.setProperty(cssVar, CONFIG.colores[k]));
+  document.title = CONFIG.tituloPagina;
+  document.getElementById('brandWordmark').innerHTML = `${CONFIG.marca.texto}<br><small>${CONFIG.marca.texto2}</small>`;
+})();
+
+const MENU = CONFIG.menu;
+const CATS = CONFIG.categorias;
+const SK = k => 'pideya_'+CONFIG.storageKey+'_'+k;
+
+function fmt(n){ return '$' + n.toLocaleString('es-AR'); }
+
+// mapa id -> {nombre, precio} generado a partir de la estructura anidada
+function buildLookup(){
+  const map = {};
+  MENU.forEach((catObj,ci)=>{
+    catObj.secciones.forEach((sec,si)=>{
+      if(sec.info) return;
+      sec.items.forEach((it,ii)=>{
+        if(it.ps!=null){
+          map[`${ci}-${si}-${ii}-s`] = {nombre: it.n+' (Simple)', precio: it.ps};
+          map[`${ci}-${si}-${ii}-e`] = {nombre: it.n+' (Extra)', precio: it.pe};
+        } else {
+          map[`${ci}-${si}-${ii}`] = {nombre: it.n, precio: it.p};
+        }
+      });
+    });
+  });
+  return map;
+}
+const LOOKUP = buildLookup();
 
 // ---- estado / mesa ----
 const params = new URLSearchParams(location.search);
-let mesa = params.get('mesa') || localStorage.getItem('pideya_mesa_actual') || '';
+let mesa = params.get('mesa') || localStorage.getItem(SK('mesa_actual')) || '';
 if(!mesa){ mesa = prompt('¿Qué número de mesa ocupás?','1') || '1'; }
-localStorage.setItem('pideya_mesa_actual', mesa);
+localStorage.setItem(SK('mesa_actual'), mesa);
 document.getElementById('mesaBadge').textContent = 'MESA ' + mesa;
 document.getElementById('mesaEditBtn').onclick = ()=>{
   const nueva = prompt('Número de mesa:', mesa);
-  if(nueva){ mesa = nueva; localStorage.setItem('pideya_mesa_actual', mesa); document.getElementById('mesaBadge').textContent='MESA '+mesa; renderStatusIfPending();}
+  if(nueva){ mesa = nueva; localStorage.setItem(SK('mesa_actual'), mesa); document.getElementById('mesaBadge').textContent='MESA '+mesa; renderStatusIfPending();}
 };
 
 let cart = {}; // id -> qty
 
-function fmt(n){ return '$' + n.toLocaleString('es-AR'); }
-
 function renderCats(){
   const cats = document.getElementById('cats');
-  cats.innerHTML = CATS.map((c,i)=>`<button class="cat-btn ${i===0?'active':''}" data-cat="${c}">${c}</button>`).join('');
+  cats.innerHTML = CATS.map((c,i)=>`<button class="cat-btn ${i===0?'active':''}" data-idx="${i}">${c}</button>`).join('');
   cats.querySelectorAll('.cat-btn').forEach(btn=>{
     btn.onclick = ()=>{
       cats.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
-      renderItems(btn.dataset.cat);
+      renderCategoria(parseInt(btn.dataset.idx));
     };
   });
 }
 
-function renderItems(cat){
-  const main = document.getElementById('menuMain');
-  const items = MENU.filter(i=>i.cat===cat);
-  main.innerHTML = `<div class="cat-title">${cat}</div>` + items.map(i=>`
-    <div class="item" id="item-${i.id}">
-      <div class="item-info">
-        <div class="item-name">${i.nombre}</div>
-        <div class="item-desc">${i.desc}</div>
-        <div class="badges">
-          ${i.tacc?'<span class="badge tacc">Sin TACC</span>':''}
-          ${i.lac?'<span class="badge lac">Sin lactosa</span>':''}
-        </div>
-        <div class="item-price">${fmt(i.precio)}</div>
-      </div>
-      <div class="qty-box">
-        ${cart[i.id] ? `<div class="qty-stepper">
-            <button class="dec" data-id="${i.id}">−</button>
-            <span>${cart[i.id]}</span>
-            <button class="inc" data-id="${i.id}">+</button>
-          </div>` : `<button class="add-btn" data-id="${i.id}">Agregar</button>`}
-      </div>
-    </div>`).join('');
+function itemRow(id, nombre, desc, precio){
+  const cantidad = cart[id]||0;
+  return `<div class="item">
+    <div class="item-info">
+      <div class="item-name">${nombre}</div>
+      ${desc?`<div class="item-desc">${desc}</div>`:''}
+      <div class="item-price">${fmt(precio)}</div>
+    </div>
+    <div class="qty-box">
+      ${cantidad ? `<div class="qty-stepper">
+          <button class="dec" data-id="${id}">−</button>
+          <span>${cantidad}</span>
+          <button class="inc" data-id="${id}">+</button>
+        </div>` : `<button class="add-btn" data-id="${id}">Agregar</button>`}
+    </div>
+  </div>`;
+}
 
-  main.querySelectorAll('.add-btn, .inc').forEach(b=>b.onclick=()=>{ addItem(b.dataset.id); renderItems(cat); });
-  main.querySelectorAll('.dec').forEach(b=>b.onclick=()=>{ removeItem(b.dataset.id); renderItems(cat); });
+function renderCategoria(ci){
+  const catObj = MENU[ci];
+  const main = document.getElementById('menuMain');
+  let html = '';
+  catObj.secciones.forEach((sec,si)=>{
+    const bandaColor = si%2===0 ? 'var(--acento-o)' : 'var(--banda2)';
+    html += `<div class="sec-banner" style="background:${bandaColor};">
+      <span>${sec.titulo}</span>${sec.nota?`<span class="nota">${sec.nota}</span>`:''}
+    </div>`;
+    if(sec.info){
+      html += `<div class="info-box">${sec.items.map(t=>`• ${t}`).join('<br>')}</div>`;
+      return;
+    }
+    sec.items.forEach((it,ii)=>{
+      if(it.ps!=null){
+        const idS = `${ci}-${si}-${ii}-s`, idE = `${ci}-${si}-${ii}-e`;
+        const qS = cart[idS]||0, qE = cart[idE]||0;
+        html += `<div class="item">
+          <div class="item-info">
+            <div class="item-name">${it.n}</div>
+            ${it.d?`<div class="item-desc">${it.d}</div>`:''}
+            <div class="item-price">Simple ${fmt(it.ps)} · Extra ${fmt(it.pe)}</div>
+          </div>
+          <div class="variant-row">
+            ${qS ? `<div class="qty-stepper"><button class="dec" data-id="${idS}">−</button><span>${qS}</span><button class="inc" data-id="${idS}">+</button></div>` : `<button class="add-btn" data-id="${idS}">+ Simple</button>`}
+            ${qE ? `<div class="qty-stepper"><button class="dec" data-id="${idE}">−</button><span>${qE}</span><button class="inc" data-id="${idE}">+</button></div>` : `<button class="add-btn" data-id="${idE}">+ Extra</button>`}
+          </div>
+        </div>`;
+      } else {
+        const id = `${ci}-${si}-${ii}`;
+        html += itemRow(id, it.n, it.d, it.p);
+      }
+    });
+  });
+  main.innerHTML = html;
+  main.querySelectorAll('.add-btn, .inc').forEach(b=>b.onclick=()=>{ addItem(b.dataset.id); renderCategoria(ci); });
+  main.querySelectorAll('.dec').forEach(b=>b.onclick=()=>{ removeItem(b.dataset.id); renderCategoria(ci); });
 }
 
 function addItem(id){ cart[id] = (cart[id]||0)+1; updateCartBar(); }
 function removeItem(id){ if(!cart[id]) return; cart[id]--; if(cart[id]<=0) delete cart[id]; updateCartBar(); }
 
-function cartTotal(){ return Object.entries(cart).reduce((s,[id,q])=> s + MENU.find(m=>m.id===id).precio*q, 0); }
+function cartTotal(){ return Object.entries(cart).reduce((s,[id,q])=> s + LOOKUP[id].precio*q, 0); }
 function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
 
 function updateCartBar(){
@@ -267,7 +731,7 @@ function openCart(){
   if(cartCount()===0){ lines.innerHTML = '<div class="empty-note">Todavía no agregaste nada</div>'; }
   else{
     lines.innerHTML = Object.entries(cart).map(([id,q])=>{
-      const m = MENU.find(x=>x.id===id);
+      const m = LOOKUP[id];
       return `<div class="cart-line"><span class="nm">${q}× ${m.nombre}</span><span class="sub">${fmt(m.precio*q)}</span></div>`;
     }).join('');
   }
@@ -280,25 +744,19 @@ document.getElementById('closeCart').onclick = ()=> document.getElementById('car
 document.getElementById('sendBtn').onclick = ()=>{
   if(cartCount()===0) return;
   const items = Object.entries(cart).map(([id,q])=>{
-    const m = MENU.find(x=>x.id===id);
+    const m = LOOKUP[id];
     return {nombre:m.nombre, precio:m.precio, cant:q};
   });
-  const pedido = {
-    id: 'P'+Date.now(),
-    mesa, items, total: cartTotal(),
-    estado: 'nuevo', // nuevo | preparando | listo
-    hora: Date.now(),
-    origen: 'cliente'
-  };
-  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]');
+  const pedido = { id:'P'+Date.now(), mesa, items, total:cartTotal(), estado:'nuevo', hora:Date.now(), origen:'cliente' };
+  const pedidos = JSON.parse(localStorage.getItem(SK('pedidos'))||'[]');
   pedidos.push(pedido);
-  localStorage.setItem('pideya_pedidos', JSON.stringify(pedidos));
-  localStorage.setItem('pideya_ping', Date.now().toString()); // fuerza evento storage
+  localStorage.setItem(SK('pedidos'), JSON.stringify(pedidos));
+  localStorage.setItem(SK('ping'), Date.now().toString());
 
   cart = {}; updateCartBar();
   document.getElementById('cartOverlay').classList.remove('show');
   showToast('Pedido enviado a mesa ' + mesa + ' ✓');
-  showStatusScreen(pedido.id);
+  showStatusScreen();
 };
 
 function showToast(msg){
@@ -307,17 +765,14 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'), 2600);
 }
 
-// ---- pantalla de estado ----
-function showStatusScreen(pedidoId){
+function showStatusScreen(){
   document.getElementById('menuView').style.display='none';
-  const view = document.getElementById('statusView');
-  view.style.display='block';
-  localStorage.setItem('pideya_last_pedido_'+mesa, pedidoId);
+  document.getElementById('statusView').style.display='block';
   renderStatus();
 }
 
 function renderStatus(){
-  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]').filter(p=>p.mesa===mesa);
+  const pedidos = JSON.parse(localStorage.getItem(SK('pedidos'))||'[]').filter(p=>p.mesa===mesa);
   const view = document.getElementById('statusView');
   if(pedidos.length===0){ view.style.display='none'; document.getElementById('menuView').style.display='block'; return; }
   const totalMesa = pedidos.reduce((s,p)=>s+p.total,0);
@@ -327,18 +782,16 @@ function renderStatus(){
     const labels = ['Recibido','Preparando','Listo'];
     return `<div class="ticket" style="margin-bottom:14px;">
       <h2>Pedido mesa ${p.mesa}</h2>
-      <div style="font-size:.8rem;color:var(--ink-dim);">${new Date(p.hora).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(p.total)}</div>
+      <div style="font-size:.8rem;color:var(--tinta-dim);">${new Date(p.hora).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(p.total)}</div>
       <div class="steps">
         ${labels.map((l,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'active':''}"><div class="step-line"></div><div class="dot">${i<idx?'✓':i+1}</div><div class="lbl">${l}</div></div>`).join('')}
       </div>
-      <div style="font-size:.85rem;">
-        ${p.items.map(it=>`${it.cant}× ${it.nombre}`).join(' · ')}
-      </div>
+      <div style="font-size:.85rem;">${p.items.map(it=>`${it.cant}× ${it.nombre}`).join(' · ')}</div>
     </div>`;
   }).join('') + `
-    <div class="ticket" style="background:var(--wine); color:var(--paper); text-align:center;">
-      <div style="font-family:'Caveat',cursive; font-size:1.4rem;">Total acumulado en tu mesa</div>
-      <div style="font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700;">${fmt(totalMesa)}</div>
+    <div class="ticket" style="background:var(--alerta); color:var(--papel); text-align:center;">
+      <div style="font-family:'Playball',cursive; font-weight:400; font-size:1.5rem;">Total acumulado en tu mesa</div>
+      <div style="font-weight:700; font-size:1.6rem;">${fmt(totalMesa)}</div>
       <div style="font-size:.75rem; opacity:.85; margin-top:4px;">El pago se realiza en caja</div>
     </div>
     <a class="back-link" href="#" id="addMoreBtn">+ Agregar otro pedido a la mesa</a>`;
@@ -349,7 +802,7 @@ function renderStatus(){
   };
 }
 function renderStatusIfPending(){
-  const pedidos = JSON.parse(localStorage.getItem('pideya_pedidos')||'[]').filter(p=>p.mesa===mesa);
+  const pedidos = JSON.parse(localStorage.getItem(SK('pedidos'))||'[]').filter(p=>p.mesa===mesa);
   if(pedidos.length>0) showStatusScreen();
 }
 
@@ -358,10 +811,10 @@ document.getElementById('mozoFab').onclick = ()=> document.getElementById('mozoO
 document.getElementById('closeMozo').onclick = ()=> document.getElementById('mozoOverlay').classList.remove('show');
 document.querySelectorAll('.motivo-btn').forEach(b=>{
   b.onclick = ()=>{
-    const llamados = JSON.parse(localStorage.getItem('pideya_llamados')||'[]');
+    const llamados = JSON.parse(localStorage.getItem(SK('llamados'))||'[]');
     llamados.push({id:'L'+Date.now(), mesa, motivo:b.dataset.m, hora:Date.now(), atendido:false});
-    localStorage.setItem('pideya_llamados', JSON.stringify(llamados));
-    localStorage.setItem('pideya_ping', Date.now().toString());
+    localStorage.setItem(SK('llamados'), JSON.stringify(llamados));
+    localStorage.setItem(SK('ping'), Date.now().toString());
     document.getElementById('mozoOverlay').classList.remove('show');
     showToast('Avisamos al mozo 🖐️');
   };
@@ -369,12 +822,12 @@ document.querySelectorAll('.motivo-btn').forEach(b=>{
 
 // ---- sync en vivo (multi-pestaña) ----
 window.addEventListener('storage', (e)=>{
-  if(e.key==='pideya_pedidos' || e.key==='pideya_ping'){ if(document.getElementById('statusView').style.display!=='none') renderStatus(); }
+  if(e.key===SK('pedidos') || e.key===SK('ping')){ if(document.getElementById('statusView').style.display!=='none') renderStatus(); }
 });
 setInterval(()=>{ if(document.getElementById('statusView').style.display!=='none') renderStatus(); }, 1500);
 
 renderCats();
-renderItems(CATS[0]);
+renderCategoria(0);
 updateCartBar();
 renderStatusIfPending();
 </script>

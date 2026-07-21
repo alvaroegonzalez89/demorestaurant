@@ -68,13 +68,21 @@
   .manual-cart{margin-top:14px; background:var(--papel2); border-radius:10px; padding:10px 14px; font-size:.85rem;}
   .confirm-btn{width:100%; background:var(--alerta); color:var(--papel); border:none; padding:14px; border-radius:999px; font-weight:700; margin-top:14px; cursor:pointer;}
   .confirm-btn:disabled{opacity:.4;}
+  .cuenta-row{background:var(--papel2); border-radius:12px; padding:12px 14px; margin-bottom:10px;}
+  .cuenta-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .cuenta-top .nm{font-weight:700; font-size:.95rem;}
+  .cuenta-top .tot{font-weight:700; font-size:1rem; color:var(--alerta-o);}
+  .cuenta-items{font-size:.8rem; color:var(--tinta-dim); margin:6px 0;}
 </style>
 </head>
 <body>
 
 <header>
   <div class="brand" id="brandWordmark"></div>
-  <button class="manual-btn" id="openManual">+ Cargar pedido manual</button>
+  <div style="display:flex; gap:8px;">
+    <button class="manual-btn" id="openCaja" style="background:var(--exito);">💰 Caja <span id="cajaCount">0</span></button>
+    <button class="manual-btn" id="openManual">+ Cargar pedido manual</button>
+  </div>
 </header>
 
 <div class="alerts" id="alerts"></div>
@@ -83,6 +91,14 @@
   <div class="col nuevo"><h2>Nuevo <span class="col-count" id="cNuevo">0</span></h2><div id="colNuevo"></div></div>
   <div class="col preparando"><h2>En preparación <span class="col-count" id="cPrep">0</span></h2><div id="colPrep"></div></div>
   <div class="col listo"><h2>Listo <span class="col-count" id="cListo">0</span></h2><div id="colListo"></div></div>
+</div>
+
+<div class="overlay" id="cajaOverlay">
+  <div class="modal">
+    <button class="close-x" id="closeCaja">✕</button>
+    <h3>Cuentas para cobrar</h3>
+    <div id="cajaLista"></div>
+  </div>
 </div>
 
 <div class="overlay" id="manualOverlay">
@@ -419,12 +435,52 @@ function renderBoard(){
       if(!p) return;
       if(p.estado==='nuevo') p.estado='preparando';
       else if(p.estado==='preparando') p.estado='listo';
-      else if(p.estado==='listo'){ const idx = pedidos.indexOf(p); pedidos.splice(idx,1); }
+      else if(p.estado==='listo'){ p.estado='entregado'; } // pasa a Caja, no se borra
       setPedidos(pedidos);
       renderBoard();
+      renderCaja();
     };
   });
 }
+
+// ---- caja / cuentas para cobrar ----
+function cuentasAbiertas(){
+  const pedidos = getPedidos().filter(p=>p.estado!=='cerrado');
+  const porMesa = {};
+  pedidos.forEach(p=>{
+    if(!porMesa[p.mesa]) porMesa[p.mesa] = {mesa:p.mesa, cliente:'', items:[], total:0};
+    porMesa[p.mesa].total += p.total;
+    if(p.cliente) porMesa[p.mesa].cliente = p.cliente;
+    p.items.forEach(it=> porMesa[p.mesa].items.push(it));
+  });
+  return Object.values(porMesa).sort((a,b)=> (''+a.mesa).localeCompare(''+b.mesa, undefined, {numeric:true}));
+}
+
+function renderCaja(){
+  const cuentas = cuentasAbiertas();
+  document.getElementById('cajaCount').textContent = cuentas.length;
+  const box = document.getElementById('cajaLista');
+  box.innerHTML = cuentas.length ? cuentas.map(c=>`
+    <div class="cuenta-row">
+      <div class="cuenta-top">
+        <span class="nm">MESA ${c.mesa}${c.cliente?(' · '+c.cliente):''}</span>
+        <span class="tot">${fmt(c.total)}</span>
+      </div>
+      <div class="cuenta-items">${c.items.map(it=>`${it.cant}× ${it.nombre}`).join(' · ')}</div>
+      <button class="confirm-btn" data-mesa="${c.mesa}">Cobrado — liberar mesa</button>
+    </div>`).join('') : '<div class="empty-col">No hay cuentas abiertas</div>';
+  box.querySelectorAll('button[data-mesa]').forEach(b=>{
+    b.onclick = ()=>{
+      const mesa = b.dataset.mesa;
+      const pedidos = getPedidos();
+      pedidos.forEach(p=>{ if(p.mesa===mesa && p.estado!=='cerrado') p.estado='cerrado'; });
+      setPedidos(pedidos);
+      renderCaja(); renderBoard();
+    };
+  });
+}
+document.getElementById('openCaja').onclick = ()=>{ renderCaja(); document.getElementById('cajaOverlay').classList.add('show'); };
+document.getElementById('closeCaja').onclick = ()=> document.getElementById('cajaOverlay').classList.remove('show');
 
 // ---- carga manual ----
 let manualCart = {};
@@ -492,12 +548,13 @@ document.getElementById('confirmManual').onclick = ()=>{
 };
 
 window.addEventListener('storage', (e)=>{
-  if([SK('pedidos'),SK('llamados'),SK('ping')].includes(e.key)){ renderBoard(); renderAlerts(); }
+  if([SK('pedidos'),SK('llamados'),SK('ping')].includes(e.key)){ renderBoard(); renderAlerts(); renderCaja(); }
 });
-setInterval(()=>{ renderBoard(); renderAlerts(); }, 4000);
+setInterval(()=>{ renderBoard(); renderAlerts(); renderCaja(); }, 4000);
 
 renderBoard();
 renderAlerts();
+renderCaja();
 </script>
 </body>
 </html>

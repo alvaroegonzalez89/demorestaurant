@@ -123,6 +123,8 @@
     opacity:0; transition:.25s;}
   .toast.show{opacity:1;}
   .back-link{display:block; text-align:center; margin-top:16px; color:var(--texto-dim); font-size:.85rem; text-decoration:none;}
+  .field-label{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--tinta-dim); margin:14px 0 6px;}
+  .mesa-input-field{width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--papel2); font-size:1rem; font-family:'DM Sans'; background:#fff; color:var(--tinta);}
 </style>
 </head>
 <body>
@@ -171,6 +173,17 @@
     <button class="motivo-btn" data-m="Consulta vegana">🌱 Consulta vegana</button>
     <button class="motivo-btn" data-m="Pedir la cuenta">🧾 Pedir la cuenta</button>
     <button class="motivo-btn" data-m="Otra consulta">✋ Otra consulta</button>
+  </div>
+</div>
+
+<div class="overlay" id="onboardOverlay" style="align-items:center;">
+  <div class="sheet" style="border-radius:20px; max-width:420px; margin:0 16px; position:relative; width:calc(100% - 32px);">
+    <h3>¡Bienvenido!</h3>
+    <div class="field-label">Número de mesa</div>
+    <input class="mesa-input-field" id="inputMesa" placeholder="Ej: 5" inputmode="numeric">
+    <div class="field-label">¿A nombre de quién dejamos el pedido?</div>
+    <input class="mesa-input-field" id="inputCliente" placeholder="Ej: Juan">
+    <button class="send-btn" id="confirmOnboard" style="margin-top:16px;">Ver la carta</button>
   </div>
 </div>
 
@@ -629,15 +642,37 @@ function buildLookup(){
 }
 const LOOKUP = buildLookup();
 
-// ---- estado / mesa ----
+// ---- estado / mesa (sin usar prompt(), que muchos navegadores embebidos bloquean) ----
 const params = new URLSearchParams(location.search);
 let mesa = params.get('mesa') || localStorage.getItem(SK('mesa_actual')) || '';
-if(!mesa){ mesa = prompt('¿Qué número de mesa ocupás?','1') || '1'; }
-localStorage.setItem(SK('mesa_actual'), mesa);
-document.getElementById('mesaBadge').textContent = 'MESA ' + mesa;
+let cliente = localStorage.getItem(SK('cliente_actual')) || '';
+
+function actualizarBadge(){
+  document.getElementById('mesaBadge').textContent = mesa ? ('MESA ' + mesa + (cliente?(' · '+cliente):'')) : 'MESA —';
+}
+function showOnboard(){
+  document.getElementById('inputMesa').value = mesa;
+  document.getElementById('inputCliente').value = cliente;
+  document.getElementById('onboardOverlay').classList.add('show');
+  setTimeout(()=> document.getElementById(mesa?'inputCliente':'inputMesa').focus(), 100);
+}
+document.getElementById('confirmOnboard').onclick = ()=>{
+  const m = document.getElementById('inputMesa').value.trim();
+  const c = document.getElementById('inputCliente').value.trim();
+  if(!m){ document.getElementById('inputMesa').focus(); return; }
+  mesa = m; cliente = c || 'Sin nombre';
+  localStorage.setItem(SK('mesa_actual'), mesa);
+  localStorage.setItem(SK('cliente_actual'), cliente);
+  actualizarBadge();
+  document.getElementById('onboardOverlay').classList.remove('show');
+  renderStatusIfPending();
+};
+
+actualizarBadge();
+if(!mesa || !cliente){ showOnboard(); }
+
 document.getElementById('mesaEditBtn').onclick = ()=>{
-  const nueva = prompt('Número de mesa:', mesa);
-  if(nueva){ mesa = nueva; localStorage.setItem(SK('mesa_actual'), mesa); document.getElementById('mesaBadge').textContent='MESA '+mesa; renderStatusIfPending();}
+  showOnboard();
 };
 
 let cart = {}; // id -> qty
@@ -747,7 +782,7 @@ document.getElementById('sendBtn').onclick = ()=>{
     const m = LOOKUP[id];
     return {nombre:m.nombre, precio:m.precio, cant:q};
   });
-  const pedido = { id:'P'+Date.now(), mesa, items, total:cartTotal(), estado:'nuevo', hora:Date.now(), origen:'cliente' };
+  const pedido = { id:'P'+Date.now(), mesa, cliente, items, total:cartTotal(), estado:'nuevo', hora:Date.now(), origen:'cliente' };
   const pedidos = JSON.parse(localStorage.getItem(SK('pedidos'))||'[]');
   pedidos.push(pedido);
   localStorage.setItem(SK('pedidos'), JSON.stringify(pedidos));
@@ -782,7 +817,7 @@ function renderStatus(){
     const labels = ['Recibido','Preparando','Listo'];
     return `<div class="ticket" style="margin-bottom:14px;">
       <h2>Pedido mesa ${p.mesa}</h2>
-      <div style="font-size:.8rem;color:var(--tinta-dim);">${new Date(p.hora).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(p.total)}</div>
+      <div style="font-size:.8rem;color:var(--tinta-dim);">${p.cliente?('A nombre de '+p.cliente+' · '):''}${new Date(p.hora).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(p.total)}</div>
       <div class="steps">
         ${labels.map((l,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'active':''}"><div class="step-line"></div><div class="dot">${i<idx?'✓':i+1}</div><div class="lbl">${l}</div></div>`).join('')}
       </div>
